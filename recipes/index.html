@@ -1,0 +1,15 @@
+---
+layout: default
+---
+<div class="container">
+    <div class="row">
+        <div class="3u">
+            <ul class="style1">
+                {% for recipe_hash in site.data.recipes %}
+                {% assign recipe = recipe_hash[1] %}
+                <li><a href="{{ recipe.name | slugify}}">{{ recipe.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>

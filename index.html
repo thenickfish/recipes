@@ -1,0 +1,25 @@
+---
+# Feel free to add content and custom Front Matter to this file.
+# To modify the layout, see https://jekyllrb.com/docs/themes/#overriding-theme-defaults
+
+layout: grid
+---
+
+{% for category_hash in site.data.categories %}
+{% assign category = category_hash[1] %}
+
+<!-- {% assign category = category_hash[1] %} -->
+
+<article class="style{% cycle "1", "2", "3", "4", "5", "6" %}">
+    <span class="image">
+        <img src="{{ "/assets/images/pic01.jpg" | relative_url}}" alt="" />
+    </span>
+    <a href="categories/{{ category.name | slugify}}">
+        <h2>{{category.name}}</h2>
+        <div class="content">
+            <p>{{ category.blurb }}</p>
+        </div>
+    </a>
+</article>
+
+{% endfor %}

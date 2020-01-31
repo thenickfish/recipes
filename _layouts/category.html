@@ -1,0 +1,24 @@
+---
+layout: grid
+---
+
+{% assign category = site.data.categories[page.category] %}
+
+{% for recipe_hash in site.data.recipes %}
+{% assign recipe = recipe_hash[1] %}
+
+
+{% if recipe.category == category.name %}
+<article class="style{% cycle "1", "2", "3", "4", "5", "6" %}">
+    <span class="image">
+        <img src="{{ "/assets/images/pic01.jpg" | relative_url}}" alt="" />
+    </span>
+    <a href="recipes/{{ recipe.name | slugify}}">
+        <h2>{{recipe.name}}</h2>{{category}}
+        <div class="content">
+            <p>{{ category.blurb }}</p>
+        </div>
+    </a>
+</article>
+{% endif %}
+{% endfor %}
