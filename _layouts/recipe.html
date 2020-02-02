@@ -2,55 +2,38 @@
 layout: default
 ---
 
-<div class="container">
-    <div class="row">
-        <div class="3u">
-            <section id="sidebard2">
-                <header>
-                    <h2>Sidebar 2</h2>
-                </header>
-                <ul class="style1">
-                    <li class="first"><span class="fa fa-check"></span><a href="#">Maecenas luctus lectus at sapien</a>
-                    </li>
-                    <li><span class="fa fa-check"></span><a href="#">Etiam rhoncus volutpat erat</a></li>
-                    <li><span class="fa fa-check"></span><a href="#">Donec dictum metus in sapien</a></li>
-                    <li><span class="fa fa-check"></span><a href="#">Integer gravida nibh quis urna</a></li>
-                    <li><span class="fa fa-check"></span><a href="#">Etiam posuere augue sit amet nisl</a></li>
-                    <li><span class="fa fa-check"></span><a href="#">Nulla luctus eleifend purus</a></li>
-                </ul>
-                <a href="#" class="button">Full Article</a>
-            </section>
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css"
+    integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
+<!--[if lte IE 8]>
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-old-ie-min.css">
+<![endif]-->
+<!--[if gt IE 8]><!-->
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-min.css">
+<!--<![endif]-->
+
+<h1 style="margin: 0;">{{page.recipe.name}}</h1>
+<p>{{page.recipe.blurb}}</p>
+
+<div class="pure-g">
+    <div class="pure-u-1 pure-u-md-1-2">
+        <div>
+            <ul style="list-style: none;">
+                {% for ingredient in page.recipe.ingredients %}
+                <li style="padding: 0;">{{ingredient}}</li>
+
+                {% endfor %}
+            </ul>
         </div>
 
-
-        <div class="9u skel-cell-important">
-            <section id="content">
-                <header>
-                    <h2>Left Sidebar</h2>
-                </header>
-                <p>Aliquam erat volutpat. Pellentesque tristique ante ut risus. Quisque dictum. Integer nisl risus,
-                    sagittis convallis, rutrum id, elementum congue, nibh. Suspendisse dictum porta lectus. Donec
-                    placerat odio vel elit. Nullam ante orci, pellentesque eget, tempus quis, ultrices in, est.
-                    Curabitur sit amet nulla. Nam in massa. Sed vel tellus. Curabitur sem urna, consequat vel, suscipit
-                    in, mattis placerat, nulla. Sed ac leo. Donec leo. Vivamus fermentum nibh in augue. Nulla enim eros,
-                    porttitor eu, tempus id, varius non, nibh. Duis enim nulla, luctus eu, dapibus lacinia, venenatis
-                    id, quam. Vestibulum imperdiet, magna nec eleifend rutrum, nunc lectus vestibulum velit, euismod
-                    lacinia quam nisl id lorem. Quisque erat. Vestibulum pellentesque, justo mollis pretium suscipit,
-                    justo nulla blandit libero, in blandit augue justo quis nisl. Fusce mattis viverra elit. Fusce quis
-                    tortor.</p>
-                <p>Aliquam erat volutpat. Pellentesque tristique ante ut risus. Quisque dictum. Integer nisl risus,
-                    sagittis convallis, rutrum id, elementum congue, nibh. Suspendisse dictum porta lectus. Donec
-                    placerat odio vel elit. Nullam ante orci, pellentesque eget, tempus quis, ultrices in, est.
-                    Curabitur sit amet nulla. Nam in massa. Sed vel tellus. Curabitur sem urna, consequat vel, suscipit
-                    in, mattis placerat, nulla. Sed ac leo. Donec leo. Vivamus fermentum nibh in augue. Nulla enim eros,
-                    porttitor eu, tempus id, varius non, nibh. Duis enim nulla, luctus eu, dapibus lacinia, venenatis
-                    id, quam. Vestibulum imperdiet, magna nec eleifend rutrum, nunc lectus vestibulum velit, euismod
-                    lacinia quam nisl id lorem. Quisque erat. Vestibulum pellentesque, justo mollis pretium suscipit,
-                    justo nulla blandit libero, in blandit augue justo quis nisl. Fusce mattis viverra elit. Fusce quis
-                    tortor.<br>
-                </p>
-            </section>
-        </div>
     </div>
+    <div class="pure-u-1 pure-u-md-1-2">
 
+        <ul style="list-style: none;">
+            {% for step in page.recipe.steps %}
+            <li>{{step}}</li>
+
+            {% endfor %}
+        </ul>
+
+    </div>
 </div>

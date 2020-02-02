@@ -1,116 +1,116 @@
 <!DOCTYPE HTML>
 <!--
-	Synchronous by TEMPLATED
-    templated.co @templatedco
-    Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+	Phantom by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <html>
 	<head>
-		<title>Synchronous by TEMPLATED</title>
-		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
-		<link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>
-		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-		<script src="/assets/js/skel.min.js"></script>
-		<script src="/assets/js/skel-panels.min.js"></script>
-		<script src="/assets/js/init.js"></script>
-		<noscript>
-			<link rel="stylesheet" href="/assets/css/skel-noscript.css" />
-			<link rel="stylesheet" href="/assets/css/style.css" />
-		</noscript>
-		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
-		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+		<title>Phantom by HTML5 UP</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="{{ "assets/css/main.css" | relative_url}}" />
+        <noscript><link rel="stylesheet" href="{{ "assets/css/noscript.css" | relative_url }}" /></noscript>
 	</head>
-	<body>
-		<div id="wrapper">
-			
-			<!-- Header -->
-			<div id="header">
-				<div class="container"> 
-					
-					<!-- Logo -->
-					<!-- <div id="logo">
-						<h1><a href="#">Synchronous</a></h1>
-						<span>Design by TEMPLATED</span>
-					</div> -->
-					
-					<!-- Nav -->
-					<nav id="nav">
+	<body class="is-preload">
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Header -->
+					<header id="header">
+						<div class="inner">
+
+							<!-- Logo -->
+								<a href="{{ "/" | relative_url}}" class="logo">
+									<span class="symbol"><img src="{{ "assets/images/logo.svg" | relative_url }}" alt="" /></span><span class="title">Recipes</span>
+								</a>
+
+							<!-- Nav -->
+								<nav>
+									<ul>
+										<li><a href="#menu">Menu</a></li>
+									</ul>
+								</nav>
+
+						</div>
+					</header>
+
+				<!-- Menu -->
+					<nav id="menu">
+						<h2>Menu</h2>
 						<ul>
-							<li><a href="/"">Homepage</a></li>
-							<li><a href="/recipes">Recipes</a></li>
-							<!-- <li class="active"><a href="twocolumn1.html">Left Sidebar</a></li>
-							<li><a href="twocolumn2.html">Right Sidebar</a></li>
-							<li><a href="onecolumn.html">No Sidebar</a></li> -->
+							<li><a href="{{ "/" | relative_url}}">Home</a></li>
+							{% for category in site.data.categories %}
+							<li><a href="{{ category.name | slugify | relative_url}}">{{category.name | capitalize }}</a></li>
+							{% endfor %}
+							<!-- <li><a href="{{ "/recipes" | relative_url}}">Recipes</a></li> -->
+							<!--<li><a href="generic.html">Tempus etiam</a></li>
+							<li><a href="generic.html">Consequat dolor</a></li>
+							<li><a href="elements.html">Elements</a></li> -->
 						</ul>
 					</nav>
-				</div>
-			</div>
-			<!-- /Header -->
-			
-			<div id="page">
-					{{content}}
-				
-			</div>
 
-
-			<!-- Footer -->
-			<!-- <div id="footer">
-				<div class="container">
-					<div class="row">
-						<div class="3u">
-							<section id="box1">
-								<header>
-									<h2>Nulla facilisi</h2>
-								</header>
-								<ul class="style3">
-									<li class="first">
-										<p class="date"><a href="#">10.03.2012</a></p>
-										<p><a href="#">Vestibulum sem magna, elementum ut, vestibulum facilisis. Nulla facilisi. Cum sociis natoque penatibus.</a></p>
-									</li>
-									<li>
-										<p class="date"><a href="#">10.03.2012</a></p>
-										<p><a href="#">Pellentesque erat erat, tincidunt in, eleifend, malesuada bibendum. Suspendisse sit amet  in eros bibendum condimentum. </a> </p>
-									</li>
-								</ul>
-							</section>
-						</div>
-						<div class="6u">
-							<section id="box2">
-								<header>
-									<h2>Donec dictum metus</h2>
-								</header>
-								<div> <a href="#" class="image full"><img src="images/pics02.jpg" alt=""></a> </div>
-								<p>Nulla enim eros, porttitor eu, tempus id, varius non, nibh. Duis enim nulla, luctus eu, dapibus lacinia, venenatis id, quam. Vestibulum imperdiet, magna nec eleifend rutrum, nunc lectus vestibulum velit, euismod lacinia quam nisl id lorem. Quisque erat. Vestibulum pellentesque, justo mollis pretium suscipit, justo nulla blandit libero, in blandit augue justo quis nisl.</p>
-							</section>
-						</div>
-						<div class="3u">
-							<section id="box3">
-								<header>
-									<h2>Gravida ipsum</h2>
-								</header>
-								<ul class="style1">
-									<li class="first"><a href="#">Pellentesque quis elit non lectus eleifend purus condimentum.</a></li>
-									<li><a href="#">Lorem ipsum dolort, consectetuer adipiscing dictum metus sapien.</a></li>
-									<li><a href="#">Phasellus nec dictum metus in sapien pellentesque congue.</a></li>
-									<li><a href="#">Cras vitae metus aliquam risus dictum metus in sapien pharetra.</a></li>
-									<li><a href="#">Duis non dictum metus in sapien ante in metus commodo euismod lobortis.</a></li>
-								</ul>
-							</section>
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+							<!-- <header>
+								<h1>This is Phantom, a free, fully responsive site<br />
+								template designed by <a href="http://html5up.net">HTML5 UP</a>.</h1>
+								<p>Etiam quis viverra lorem, in semper lorem. Sed nisl arcu euismod sit amet nisi euismod sed cursus arcu elementum ipsum arcu vivamus quis venenatis orci lorem ipsum et magna feugiat veroeros aliquam. Lorem ipsum dolor sit amet nullam dolore.</p>
+							</header> -->
+							{{content}}
 						</div>
 					</div>
-				</div>
-			</div> -->
 
-			<!-- Copyright -->
-			<div id="copyright">
-				<div class="container">
-					Design: <a href="http://templated.co">TEMPLATED</a> Images: <a href="http://unsplash.com">Unsplash</a> (<a href="http://unsplash.com/cc0">CC0</a>)
-				</div>
+				<!-- Footer -->
+					<!-- <footer id="footer">
+						<div class="inner">
+							<section>
+								<h2>Get in touch</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<input type="text" name="name" id="name" placeholder="Name" />
+										</div>
+										<div class="field half">
+											<input type="email" name="email" id="email" placeholder="Email" />
+										</div>
+										<div class="field">
+											<textarea name="message" id="message" placeholder="Message"></textarea>
+										</div>
+									</div>
+									<ul class="actions">
+										<li><input type="submit" value="Send" class="primary" /></li>
+									</ul>
+								</form>
+							</section>
+							<section>
+								<h2>Follow</h2>
+								<ul class="icons">
+									<li><a href="#" class="icon brands style2 fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-facebook-f"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-dribbble"><span class="label">Dribbble</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-github"><span class="label">GitHub</span></a></li>
+									<li><a href="#" class="icon brands style2 fa-500px"><span class="label">500px</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-phone"><span class="label">Phone</span></a></li>
+									<li><a href="#" class="icon solid style2 fa-envelope"><span class="label">Email</span></a></li>
+								</ul>
+							</section>
+							<ul class="copyright">
+								<li>&copy; Untitled. All rights reserved</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+							</ul>
+						</div>
+					</footer> -->
+
 			</div>
-			
-		</div>
+
+		<!-- Scripts -->
+			<script src="{{ "assets/js/jquery.min.js" | relative_url }}"></script>
+			<script src="{{ "assets/js/browser.min.js" | relative_url }}"></script>
+			<script src="{{ "assets/js/breakpoints.min.js" | relative_url }}"></script>
+			<script src="{{ "assets/js/util.js" | relative_url }}"></script>
+			<script src="{{ "assets/js/main.js" | relative_url }}"></script>
+
 	</body>
 </html>

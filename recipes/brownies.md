@@ -1,4 +1,0 @@
----
-layout: recipe
-recipe: brownies
----

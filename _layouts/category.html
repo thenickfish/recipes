@@ -1,24 +1,24 @@
 ---
 layout: grid
 ---
+{% for p in site.pages %}
+{% if p.dir contains page.dir %}
+{% if p.layout == "recipe" %}
 
-{% assign category = site.data.categories[page.category] %}
+{% capture cssClass %}{% cycle '1', '2', '3', '4', '5', '6' %}{% endcapture %}
+{% capture image %}{% cycle '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15' %}{% endcapture %}
 
-{% for recipe_hash in site.data.recipes %}
-{% assign recipe = recipe_hash[1] %}
-
-
-{% if recipe.category == category.name %}
-<article class="style{% cycle "1", "2", "3", "4", "5", "6" %}">
+<article class="style{{cssClass}}">
     <span class="image">
-        <img src="{{ "/assets/images/pic01.jpg" | relative_url}}" alt="" />
+        <img src="{{ "/assets/images/pic" | append: image | append:  ".jpg" | relative_url }}" alt="" />
     </span>
-    <a href="recipes/{{ recipe.name | slugify}}">
-        <h2>{{recipe.name}}</h2>{{category}}
+    <a href="{{ p.url | relative_url }}">
+        <h2>{{p.recipe.name}}</h2>
         <div class="content">
-            <p>{{ category.blurb }}</p>
+            <p>{{ p.recipe.blurb }}</p>
         </div>
     </a>
 </article>
+{% endif %}
 {% endif %}
 {% endfor %}

@@ -1,15 +1,22 @@
 ---
-layout: default
+layout: grid
 ---
-<div class="container">
-    <div class="row">
-        <div class="3u">
-            <ul class="style1">
-                {% for recipe_hash in site.data.recipes %}
-                {% assign recipe = recipe_hash[1] %}
-                <li><a href="{{ recipe.name | slugify}}">{{ recipe.name }}</a></li>
-                {% endfor %}
-            </ul>
+
+{% for recipe_hash in site.data.recipes.desserts %}
+{% assign recipe = recipe_hash[1] %}
+
+{% capture cssClass %}{% cycle '1', '2', '3', '4', '5', '6' %}{% endcapture %}
+{% capture image %}{% cycle '01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15' %}{% endcapture %}
+<article class="style{{cssClass}}">
+    <span class="image">
+        <img src="{{ "/assets/images/pic" | append: image | append:  ".jpg" | relative_url }}" alt="" />
+    </span>
+    <a href="{{ recipe_hash[0] }}">
+        <h2>{{recipe.name}}</h2>
+        <div class="content">
+            <p>{{ recipe.blurb }}</p>
         </div>
-    </div>
-</div>
+    </a>
+</article>
+
+{% endfor %}
