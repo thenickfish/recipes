@@ -1,5 +1,8 @@
 - name: appetizers
+  blurb: 
 - name: entrees
+  blurb: 
 - name: soups
+  blurb: 
 - name: desserts
   blurb: desserts are good
