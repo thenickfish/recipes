@@ -25,9 +25,10 @@ description: >- # this means to ignore newlines until "baseurl:"
   line in _config.yml. It will appear in your document head meta (for
   Google search results) and in your feed.xml site description.
 baseurl: '/recipes' # the subpath of your site, e.g. /blog
-url: '' # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username: jekyll
+url: 'https://nicholas.fish' # the base hostname & protocol for your site, e.g. http://example.com
+
+api_baseurl: https://nicholasfishrecipes.azurewebsites.net
+auth_callback: https://nicholasfish.b2clogin.com/nicholasfish.onmicrosoft.com/oauth2/v2.0/authorize?p=B2C_1_recipe_signin&client_id=b4783f10-e586-469a-a13e-0b99f33b91aa&nonce=defaultNonce&redirect_uri=https%3A%2F%2Fnicholas.fish%2Frecipes%2Fauth_callback.html&scope=openid&response_type=id_token&prompt=login
 
 include: ['.well-known/microsoft-identity-association.json']
 
