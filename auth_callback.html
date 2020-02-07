@@ -1,11 +1,11 @@
-<script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.min.js"></script>
+<script src="https://alcdn.msauth.net/lib/1.2.1/js/msal.js"></script>
 
 <script>
   var msalConfig = {
     auth: {
       clientId: '72b94666-c0f8-451b-a060-e48ab230c13c',
       authority: 'https://login.microsoftonline.com/8e81e7c5-f030-4a29-85be-a64c83c892b6',
-      redirectURI: 'http://localhost:4000/recipes/auth_callback.html'
+      redirectURI: 'http://localhost:4000/recipes/'
     },
     cache: {
       cacheLocation: 'localStorage',
@@ -18,25 +18,22 @@
   var requestObj = {
     scopes: ['user.read']
   };
-  if (!location.hash.includes('id_token')) {
-    myMSALObj
-      .acquireTokenPopup(requestObj)
-      .then(function(loginResponse) {
-        //Login Success callback code here
 
-        alert(JSON.stringify(loginResponse));
-      })
-      .catch(function(error) {
-        console.log(error);
-        alert();
-      });
+  if (!sessionStorage.getItem('recipes.user')) {
+    const userName = myMSALObj.getAccount().name;
+    console.log(myMSALObj.getAccount());
+    alert("User '" + userName + "' logged-in");
+    myMSALObj.handle;
   }
+
+  document.getElementById('test').textContent = sessionStorage.getItem('recipes.user');
 
   //   let token = window.location.hash.substr(1);
   //   sessionStorage.setItem('token', token);
   //   window.location.replace('/');
 </script>
 
+<p id="test"></p>
 <!-- http://localhost:4000/recipes/auth_callback.html#id_token=
     
     eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ilg1ZVhrNHh5b2pORnVtMWtsMll0djhkbE5QNC1jNTdkTzZRR1RWQndhTmsifQ.
