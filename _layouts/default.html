@@ -1,16 +1,13 @@
 <!DOCTYPE HTML>
-<!--
-	Phantom by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html>
 	<head>
-		<title>Phantom by HTML5 UP</title>
+		<title>{{site.title}}</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{{ "assets/css/main.css" | relative_url}}" />
-        <noscript><link rel="stylesheet" href="{{ "assets/css/noscript.css" | relative_url }}" /></noscript>
+		<noscript><link rel="stylesheet" href="{{ "assets/css/noscript.css" | relative_url }}" /></noscript>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.4/bluebird.min.js"></script>
+		<script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js"></script>
 	</head>
 	<body class="is-preload">
 		<!-- Wrapper -->
@@ -37,12 +34,14 @@
 
 				<!-- Menu -->
 					<nav id="menu">
-						<h2>Menu</h2>
+						<h2>Menu<span id="username"></span></h2>
 						<ul>
 							<li><a href="{{ "/" | relative_url}}">Home</a></li>
 							{% for category in site.data.categories %}
 							<li><a href="{{ category.name | slugify | relative_url}}">{{category.name | capitalize }}</a></li>
 							{% endfor %}
+							<li><a id="loginButton" href="">Login</a></li>
+							<li style="display: none;" id="editButton"><a href="{{ "/edit" | relative_url }}">Edit</a></li>
 							<!-- <li><a href="{{ "/recipes" | relative_url}}">Recipes</a></li> -->
 							<!--<li><a href="generic.html">Tempus etiam</a></li>
 							<li><a href="generic.html">Consequat dolor</a></li>
@@ -106,6 +105,8 @@
 			</div>
 
 		<!-- Scripts -->
+			<script>let authCallback = '{{site.auth_callback}}'</script>
+		<script src="{{ "assets/js/auth.js" | relative_url }}"></script>
 			<script src="{{ "assets/js/jquery.min.js" | relative_url }}"></script>
 			<script src="{{ "assets/js/browser.min.js" | relative_url }}"></script>
 			<script src="{{ "assets/js/breakpoints.min.js" | relative_url }}"></script>

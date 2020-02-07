@@ -1,0 +1,1 @@
+auth_callback: 'http://localhost:4000/recipes/'
