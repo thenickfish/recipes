@@ -1,4 +1,4 @@
-﻿namespace RecipesApi
+﻿namespace RecipesApi.Models
 {
     internal class Category
     {

@@ -1,11 +1,10 @@
-using LibGit2Sharp;
-using LibGit2Sharp.Handlers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using RecipesApi.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +12,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using YamlDotNet.Serialization;
 
 namespace RecipesApi
 {
@@ -20,30 +20,31 @@ namespace RecipesApi
     {
         private static readonly string RepoPath = @"d:\home\data\recipes";
         private static readonly string CategoriesFilename = Path.Combine(RepoPath, "_data", "categories.yml");
+        private static readonly Deserializer YamlDeserializer = new Deserializer();
+        private static readonly Serializer YamlSerializer = new Serializer();
 
         [FunctionName("GetCategories")]
         public static Task<IActionResult> GetCategories(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = null)] HttpRequest req,
-            ClaimsPrincipal principal,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "categories")] HttpRequest req,
             ILogger log)
         {
             log.LogInformation("Getting categories...");
-            CloneRepo(log);
+            Git.CloneRepo(log, RepoPath);
 
             log.LogInformation("Reading yml file...");
             var categoriesYml = File.ReadAllText(CategoriesFilename);
 
-            var ymlDeserializer = new YamlDotNet.Serialization.Deserializer();
-            return Task.FromResult<IActionResult>(new OkObjectResult(ymlDeserializer.Deserialize<List<Category>>(categoriesYml)));
+            return Task.FromResult<IActionResult>(new OkObjectResult(YamlDeserializer.Deserialize<List<Category>>(categoriesYml)));
         }
 
         [FunctionName("SaveCategories")]
         public static async Task<IActionResult> SaveCategories(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = null)] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "categories")] HttpRequest req,
             ClaimsPrincipal principal,
             ILogger log)
         {
-            CloneRepo(log);
+            var (name, email) = principal.GetNameAndEmail();
+            Git.CloneRepo(log, RepoPath);
 
             var categories = JsonConvert.DeserializeObject<List<Category>>(await req.ReadAsStringAsync());
             foreach (var category in categories)
@@ -70,31 +71,28 @@ namespace RecipesApi
             }
 
             //save yml
-            var serializer = new YamlDotNet.Serialization.Serializer();
-            var result = serializer.Serialize(categories);
-            File.WriteAllText(CategoriesFilename, result);
-            CommitAllChanges();
+            var updatedYaml = YamlSerializer.Serialize(categories);
+            File.WriteAllText(CategoriesFilename, updatedYaml);
+            Git.CommitAllChanges(RepoPath, "Update categories.yml", name, email);
 
             return new OkResult();
         }
 
         [FunctionName("GetRecipes")]
         public static Task<IActionResult> GetRecipes(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "{categorySlug}/recipes")] HttpRequest req,
-            ClaimsPrincipal principal,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "categories/{categorySlug}/recipes")] HttpRequest req,
             string categorySlug,
             ILogger log)
         {
-            CloneRepo(log);
+            Git.CloneRepo(log, RepoPath);
 
             var recipeFilesForCategory = Directory.EnumerateFiles(Path.Combine(RepoPath, categorySlug)).Where(fn => !fn.Contains("index.html"));
 
-            var ymlDeserializer = new YamlDotNet.Serialization.Deserializer();
             var responseJson = new List<object>();
             foreach (var recipeFile in recipeFilesForCategory)
             {
                 var yaml = string.Join(Environment.NewLine, File.ReadAllLines(recipeFile).Skip(1).TakeWhile(l => !l.Equals("---")));
-                var frontMatter = ymlDeserializer.Deserialize<Dictionary<string, object>>(yaml);
+                var frontMatter = YamlDeserializer.Deserialize<Dictionary<string, object>>(yaml);
                 responseJson.Add(frontMatter["recipe"]);
             }
             return Task.FromResult<IActionResult>(new OkObjectResult(responseJson));
@@ -102,12 +100,16 @@ namespace RecipesApi
 
         [FunctionName("SaveRecipes")]
         public static async Task<IActionResult> SaveRecipes(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "{categorySlug}/recipes")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "categories/{categorySlug}/recipes")] HttpRequest req,
             ClaimsPrincipal principal,
             string categorySlug,
             ILogger log)
         {
-            CloneRepo(log);
+            if (string.IsNullOrWhiteSpace(categorySlug))
+                return new BadRequestResult();
+
+            var (name, email) = principal.GetNameAndEmail();
+            Git.CloneRepo(log, RepoPath);
 
             var categoryDirectory = Path.Combine(RepoPath, categorySlug);
             foreach (var file in Directory.EnumerateFiles(categoryDirectory).Where(f => !f.EndsWith("index.html")))
@@ -116,14 +118,20 @@ namespace RecipesApi
             var recipes = JsonConvert.DeserializeObject<List<Recipe>>(await req.ReadAsStringAsync());
             foreach (var recipe in recipes)
             {
-                var serializer = new YamlDotNet.Serialization.Serializer();
-                var result = serializer.Serialize(new { layout = "recipe", recipe });
+                var result = YamlSerializer.Serialize(new { layout = "recipe", recipe });
                 File.WriteAllText(Path.Combine(categoryDirectory, GenerateSlug(recipe.name) + ".html"), $"---\n{result}\n---");
             }
+            Git.CommitAllChanges(RepoPath, $"Updating {categorySlug} recipes", name, email);
             return new OkResult();
         }
 
-        public static string GenerateSlug(this string phrase)
+        private static (string, string) GetNameAndEmail(this ClaimsPrincipal principal) =>
+        (
+            principal.Claims?.FirstOrDefault(c => c.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"))?.Value,
+            principal.Claims?.FirstOrDefault(c => c.Type.Equals("name"))?.Value
+        );
+
+        private static string GenerateSlug(this string phrase)
         {
             phrase = (phrase ?? "").ToLower();
             string str = Regex.Replace(phrase, @"[^a-z0-9\s-]", "");
@@ -131,39 +139,6 @@ namespace RecipesApi
             str = str.Substring(0, str.Length <= 45 ? str.Length : 45).Trim();
             str = Regex.Replace(str, @"\s", "-");
             return str;
-        }
-
-        static void CommitAllChanges()
-        {
-            using var gitRepo = new Repository(RepoPath);
-            Commands.Stage(gitRepo, "*");
-            Signature author = new Signature("Test", "@testsig", DateTime.Now);
-            Signature committer = author;
-
-            // Commit to the repository
-            Commit commit = gitRepo.Commit("Here's a commit i made!", author, committer);
-            PushOptions options = new PushOptions
-            {
-                CredentialsProvider = new CredentialsHandler(
-                (_, __, ___) =>
-                    new UsernamePasswordCredentials()
-                    {
-                        Username = Environment.GetEnvironmentVariable("git_user"),
-                        Password = Environment.GetEnvironmentVariable("git_token")
-                    })
-            };
-
-            gitRepo.Network.Push(gitRepo.Branches["master"], options);
-
-        }
-
-        static void CloneRepo(ILogger logger)
-        {
-            if (Directory.Exists(RepoPath))
-                return;
-
-            logger.LogInformation("Cloning repository...");
-            Repository.Clone("https://github.com/thenickfish/recipes.git", RepoPath);
         }
     }
 }

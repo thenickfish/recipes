@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace RecipesApi
+namespace RecipesApi.Models
 {
     class Recipe
     {
