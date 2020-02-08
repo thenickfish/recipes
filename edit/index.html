@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+<h4>Categories</h4>
+<ul>
+  {% for category in site.data.categories %}
+  <li>{{ category.name }}</li>
+  {% endfor %} edit
+</ul>
+
+<form>
+  <div class="row">
+    <input type="text" />
+    <input type="text" />
+  </div>
+</form>

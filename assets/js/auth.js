@@ -1,6 +1,8 @@
 var msalConfig = {
   auth: {
     clientId: '72b94666-c0f8-451b-a060-e48ab230c13c',
+    //authority: 'https://login.microsoftonline.com/8e81e7c5-f030-4a29-85be-a64c83c892b6',
+    // clientId: '43e0fc54-bc3d-4d05-96d4-f5fae88ed568',
     authority: 'https://login.microsoftonline.com/8e81e7c5-f030-4a29-85be-a64c83c892b6',
     redirectUri: authCallback
   },
@@ -10,7 +12,7 @@ var msalConfig = {
   }
 };
 const loginRequest = {
-  scopes: ['openid', 'profile', 'User.Read']
+  scopes: ['api://43e0fc54-bc3d-4d05-96d4-f5fae88ed568/recipes.edit', 'profile']
 };
 // Select DOM elements to work with
 const userElement = document.getElementById('username');
@@ -22,7 +24,7 @@ const graphConfig = {
 };
 
 const requestObj = {
-  scopes: ['user.read']
+  scopes: ['api://43e0fc54-bc3d-4d05-96d4-f5fae88ed568/recipes.edit']
 };
 
 // Create the main myMSALObj instance
@@ -45,7 +47,7 @@ async function signIn() {
 
     // Login Success
 
-    window.close();
+    // window.close();
     showWelcomeMessage();
     acquireTokenPopupAndCallMSGraph();
   } catch (error) {
@@ -165,7 +167,7 @@ async function callMSGraph(theUrl, accessToken, callback) {
   xmlHttp.onreadystatechange = function() {
     if (this.readyState === 4 && this.status === 200) callback(JSON.parse(this.responseText));
   };
-  xmlHttp.open('GET', theUrl, true); // true for asynchronous
+  xmlHttp.open('GET', 'https://nicholasfishrecipes.azurewebsites.net/api/GetCategories', true); // true for asynchronous
   xmlHttp.setRequestHeader('Authorization', `Bearer ${accessToken}`);
   xmlHttp.send();
 }

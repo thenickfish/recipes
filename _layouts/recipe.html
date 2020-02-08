@@ -2,38 +2,34 @@
 layout: default
 ---
 
-<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/pure-min.css"
-    integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47" crossorigin="anonymous">
-<!--[if lte IE 8]>
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-old-ie-min.css">
-<![endif]-->
-<!--[if gt IE 8]><!-->
-<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-min.css">
-<!--<![endif]-->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/purecss@1.0.1/build/pure-min.css"
+  integrity="sha384-oAOxQR6DkCoMliIh8yFnu25d7Eq/PHS21PClpwjOTeU2jRSq11vu66rf90/cZr47"
+  crossorigin="anonymous"
+/>
+<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-min.css" />
 
 <h1 style="margin: 0;">{{page.recipe.name}}</h1>
 <p>{{page.recipe.blurb}}</p>
 
 <div class="pure-g">
-    <div class="pure-u-1 pure-u-md-1-2">
-        <div>
-            <ul style="list-style: none;">
-                {% for ingredient in page.recipe.ingredients %}
-                <li style="padding: 0;">{{ingredient}}</li>
+  <div class="pure-u-1 pure-u-md-1-2">
+    <div>
+      <ul style="list-style: none;">
+        {% for ingredient in page.recipe.ingredients %}
+        <li style="padding: 0;">{{ingredient}}</li>
 
-                {% endfor %}
-            </ul>
-        </div>
-
+        {% endfor %}
+      </ul>
     </div>
-    <div class="pure-u-1 pure-u-md-1-2">
+  </div>
+  <div class="pure-u-1 pure-u-md-1-2">
+    <ul style="list-style: none;">
+      {% for step in page.recipe.steps %}
+      <li>{{step}}</li>
 
-        <ul style="list-style: none;">
-            {% for step in page.recipe.steps %}
-            <li>{{step}}</li>
-
-            {% endfor %}
-        </ul>
-
-    </div>
+      {% endfor %}
+    </ul>
+  </div>
 </div>
