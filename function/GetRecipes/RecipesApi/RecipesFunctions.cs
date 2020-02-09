@@ -18,7 +18,12 @@ namespace RecipesApi
 {
     public static class RecipesFunctions
     {
+#if DEBUG
+        private static readonly string RepoPath = @"recipes";
+#else
         private static readonly string RepoPath = @"d:\home\data\recipes";
+#endif
+
         private static readonly string CategoriesFilename = Path.Combine(RepoPath, "_data", "categories.yml");
         private static readonly Deserializer YamlDeserializer = new Deserializer();
         private static readonly Serializer YamlSerializer = new Serializer();
@@ -98,7 +103,7 @@ namespace RecipesApi
             return Task.FromResult<IActionResult>(new OkObjectResult(responseJson));
         }
 
-        [FunctionName("SaveRecipes")]
+        [FunctionName("SaveRecipe")]
         public static async Task<IActionResult> SaveRecipes(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "categories/{categorySlug}/recipes")] HttpRequest req,
             ClaimsPrincipal principal,
@@ -115,20 +120,17 @@ namespace RecipesApi
             foreach (var file in Directory.EnumerateFiles(categoryDirectory).Where(f => !f.EndsWith("index.html")))
                 File.Delete(file);
 
-            var recipes = JsonConvert.DeserializeObject<List<Recipe>>(await req.ReadAsStringAsync());
-            foreach (var recipe in recipes)
-            {
-                var result = YamlSerializer.Serialize(new { layout = "recipe", recipe });
-                File.WriteAllText(Path.Combine(categoryDirectory, GenerateSlug(recipe.name) + ".html"), $"---\n{result}\n---");
-            }
-            Git.CommitAllChanges(RepoPath, $"Updating {categorySlug} recipes", name, email);
+            var recipe = JsonConvert.DeserializeObject<Recipe>(await req.ReadAsStringAsync());
+            var result = YamlSerializer.Serialize(new { layout = "recipe", recipe });
+            File.WriteAllText(Path.Combine(categoryDirectory, GenerateSlug(recipe.name) + ".html"), $"---\n{result}\n---");
+            Git.CommitAllChanges(RepoPath, $"Saving {categorySlug}: {recipe.name} recipe", name, email);
             return new OkResult();
         }
 
         private static (string, string) GetNameAndEmail(this ClaimsPrincipal principal) =>
         (
-            principal.Claims?.FirstOrDefault(c => c.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"))?.Value,
-            principal.Claims?.FirstOrDefault(c => c.Type.Equals("name"))?.Value
+            principal.Claims?.FirstOrDefault(c => c.Type.Equals("http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"))?.Value ?? Environment.UserName,
+            principal.Claims?.FirstOrDefault(c => c.Type.Equals("name"))?.Value ?? Environment.UserName
         );
 
         private static string GenerateSlug(this string phrase)

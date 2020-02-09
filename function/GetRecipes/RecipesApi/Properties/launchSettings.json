@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "RecipesApi": {
+      "commandName": "Project",
+      "commandLineArgs": "start --cors *"
+    }
+  }
+}

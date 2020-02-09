@@ -17,6 +17,7 @@ const loginRequest = {
 // Select DOM elements to work with
 const userElement = document.getElementById('username');
 const loginButton = document.getElementById('loginButton');
+const editButton = document.getElementById('editButton');
 // const jsonPre = document.getElementById('json');
 
 const graphConfig = {
@@ -73,7 +74,8 @@ async function acquireTokenPopupAndCallMSGraph() {
       }
     }
   }
-  callMSGraph(graphConfig.graphMeEndpoint, tokenResponse.accessToken, graphAPICallback);
+  sessionStorage.setItem('recipes.token', tokenResponse.accessToken);
+  // callMSGraph(graphConfig.graphMeEndpoint, tokenResponse.accessToken, graphAPICallback);
 }
 
 function graphAPICallback(data) {
@@ -82,6 +84,7 @@ function graphAPICallback(data) {
 }
 
 function showWelcomeMessage() {
+  editButton.style.display = 'inherit';
   userElement.innerHTML = ` (${myMSALObj.getAccount().name})`;
   // Change the login button to log out
   loginButton.removeEventListener('click', signIn, false);

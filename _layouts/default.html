@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{{ 'assets/css/main.css' | relative_url}}" />
     <noscript><link rel="stylesheet" href="{{ 'assets/css/noscript.css' | relative_url }}"/></noscript>
-    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js"></script>
   </head>
   <body class="is-preload">
     <div id="wrapper">
@@ -28,11 +27,13 @@
         <h2>Menu<span id="username"></span></h2>
         <ul>
           <li><a href="{{ '/' | relative_url}}">Home</a></li>
+          <li style="display: none;" id="editButton">
+            <a href="{{ '/edit' | relative_url }}"><i class="fas fa-plus-square"></i> Add Recipe</a>
+          </li>
           {% for category in site.data.categories %}
           <li><a href="{{ category.name | slugify | relative_url}}">{{category.name | capitalize }}</a></li>
           {% endfor %}
           <li><a id="loginButton" href="">Login</a></li>
-          <li style="display: none;" id="editButton"><a href="{{ '/edit' | relative_url }}">Edit</a></li>
           <!-- <li><a href="{{ '/recipes' | relative_url}}">Recipes</a></li> -->
           <!--<li><a href="generic.html">Tempus etiam</a></li>
 							<li><a href="generic.html">Consequat dolor</a></li>
@@ -48,6 +49,7 @@
       </div>
     </div>
 
+    <script src="https://secure.aadcdn.microsoftonline-p.com/lib/1.0.0/js/msal.js"></script>
     <script>
       const authCallback = '{{site.auth_callback}}';
     </script>
