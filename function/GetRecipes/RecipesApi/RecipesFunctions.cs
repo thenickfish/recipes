@@ -110,20 +110,22 @@ namespace RecipesApi
             string categorySlug,
             ILogger log)
         {
+            log.LogInformation("saving recipe");
             if (string.IsNullOrWhiteSpace(categorySlug))
                 return new BadRequestResult();
 
             var (name, email) = principal.GetNameAndEmail();
             Git.CloneRepo(log, RepoPath);
 
+            log.LogInformation("cloned");
             var categoryDirectory = Path.Combine(RepoPath, categorySlug);
-            foreach (var file in Directory.EnumerateFiles(categoryDirectory).Where(f => !f.EndsWith("index.html")))
-                File.Delete(file);
 
             var recipe = JsonConvert.DeserializeObject<Recipe>(await req.ReadAsStringAsync());
             var result = YamlSerializer.Serialize(new { layout = "recipe", recipe });
             File.WriteAllText(Path.Combine(categoryDirectory, GenerateSlug(recipe.name) + ".html"), $"---\n{result}\n---");
+            log.LogInformation("committing");
             Git.CommitAllChanges(RepoPath, $"Saving {categorySlug}: {recipe.name} recipe", name, email);
+            log.LogInformation("done");
             return new OkResult();
         }
 
