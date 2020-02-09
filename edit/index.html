@@ -36,49 +36,35 @@ top_level_props:
 <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-xBuQ/xzmlsLoJpyjoggmTEz8OWUFM0/RC5BsqQBDX2v5cMvDHcMakNTNrHIW2I5f" crossorigin="anonymous"></script>
 <script>
 
-        async function save(form) {
-            let categoryCombo = form['category']
-          let recipe = {
-              category: categoryCombo.options[categoryCombo.selectedIndex].value,
-              {% for prop in page.top_level_props %}
-              {% if prop.type == 'array' %}
-              {{prop.name}}: form['{{prop.name}}'].value.split('\n'),
-              {% else %}
-            {{prop.name}}: form['{{prop.name}}'].value,
-            {% endif %}
-            {% endfor %}
-          };
+  async function save(form) {
+    let categoryCombo = form['category'];
+    let recipe = {
+      category: categoryCombo.options[categoryCombo.selectedIndex].value,
+          {% for prop in page.top_level_props %}
+          {% if prop.type == 'array' %}
+          {{prop.name}}: form['{{prop.name}}'].value.split('\n'),
+          {% else %}
+      {{prop.name}}: form['{{prop.name}}'].value,
+      {% endif %}
+      {% endfor %}
+      };
 
-        await saveRecipe(recipe);
-        }
-
-        async function saveRecipe(recipe) {
-
-  let category= recipe.category;
-
-      const http = new XMLHttpRequest();
-      http.onreadystatechange = function() {//Call a function when the state changes.
-  if(http.readyState == 4 && http.status == 200) {
-  alert(http.responseText);
-  }
-  }
-  //https://nicholasfishrecipes.azurewebsites.net/api/categories/${category}/recipes
-  http.open('POST', `http://localhost:7071/api/categories/${category}/recipes`, true);
-  http.setRequestHeader('Content-type', 'application/json');
-  http.setRequestHeader('Authorization', `Bearer ${sessionStorage.getItem('recipes.token')}`);
-  http.send(JSON.stringify(recipe));
+    await saveRecipe(recipe);
   }
 
-        // var hash = window.location.hash.substr(1);
+  async function saveRecipe(recipe) {
+    let category = recipe.category;
 
-        // var result = hash.split('&').reduce(function(result, item) {
-        //   var parts = item.split('=');
-        //   result[parts[0]] = parts[1];
-        //   return result;
-        // }, {});
-
-        //   alert(JSON.stringify(result));
-
-        //   JSON.parse("{'test':'sdte'}")
-        //   alert(result.recipe);
+    const http = new XMLHttpRequest();
+    http.onreadystatechange = function() {
+      //Call a function when the state changes.
+      if (http.readyState == 4 && http.status == 200) {
+        alert(http.responseText);
+      }
+    };
+    http.open('POST', `{{ site.api_baseurl }}api/categories/${category}/recipes`, true);
+    http.setRequestHeader('Content-type', 'application/json');
+    http.setRequestHeader('Authorization', `Bearer ${sessionStorage.getItem('recipes.token')}`);
+    http.send(JSON.stringify(recipe));
+  }
 </script>

@@ -8,6 +8,11 @@ namespace RecipesApi
 {
     static class Git
     {
+#if DEBUG
+        private const string Branch = "localhost-dev";
+#else
+        private const string Branch = "master";
+#endif
         internal static void CommitAllChanges(string repoPath, string commitMessage, string user, string email)
         {
             using var gitRepo = new Repository(repoPath);
@@ -25,7 +30,7 @@ namespace RecipesApi
                         Password = Environment.GetEnvironmentVariable("git_token")
                     })
             };
-            gitRepo.Network.Push(gitRepo.Branches["master"], options);
+            gitRepo.Network.Push(gitRepo.Branches[Branch], options);
         }
 
         internal static void CloneRepo(ILogger logger, string repoPath)
@@ -34,7 +39,10 @@ namespace RecipesApi
                 return;
 
             logger.LogInformation("Cloning repository...");
-            Repository.Clone("https://github.com/thenickfish/recipes.git", repoPath);
+            Repository.Clone("https://github.com/thenickfish/recipes.git", repoPath, new CloneOptions
+            {
+                BranchName = Branch
+            });
         }
     }
 }

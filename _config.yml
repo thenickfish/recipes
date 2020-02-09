@@ -5,8 +5,8 @@ title: Recipes
 baseurl: '/recipes' # the subpath of your site, e.g. /blog
 url: 'https://nicholas.fish' # the base hostname & protocol for your site, e.g. http://example.com
 
-api_baseurl: https://nicholasfishrecipes.azurewebsites.net
-auth_callback: 'https://nicholas.fish/recipes/'
+auth_callback: https://nicholas.fish/recipes/
+api_baseurl: https://nicholasfishrecipes.azurewebsites.net/
 
 include: ['.well-known/microsoft-identity-association.json']
 
