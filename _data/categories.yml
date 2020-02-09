@@ -1,8 +1,16 @@
-- name: appetizers
-  blurb: a test
-- name: entrees
+- name: breakfast
   blurb: 
-- name: soups
+- name: sides
   blurb: 
-- name: desserts
-  blurb: desserts are good
+- name: soup
+  blurb: 
+- name: salad
+  blurb: 
+- name: entree
+  blurb: 
+- name: dessert
+  blurb: 
+- name: sauces_dressing_dips
+  blurb: 
+- name: drinks
+  blurb: 
