@@ -29,7 +29,7 @@ top_level_props:
     <input id="{{ prop.name }}" type="text" />
     {% endif %} {% endfor %}
 
-    <p><input type="submit" class="btn btn-danger" value="Submit" onclick="save(this.form); return false;" /></p>
+    <p><input id="submitButton" type="submit" class="btn btn-danger" value="Submit" onclick="save(this.form); return false;" /></p>
   </form>
 </div>
 
@@ -37,6 +37,8 @@ top_level_props:
 <script>
 
   async function save(form) {
+    document.getElementById("submitButton").disabled = true;
+    window.document.body.style.cursor = "wait";
     let categoryCombo = form['category'];
     let recipe = {
       category: categoryCombo.options[categoryCombo.selectedIndex].value,
@@ -58,9 +60,14 @@ top_level_props:
     const http = new XMLHttpRequest();
     http.onreadystatechange = function() {
       //Call a function when the state changes.
-      if (http.readyState == 4 && http.status == 200) {
-        alert(http.responseText);
+      if (http.readyState == 4) {
+        if (http.status == 200) {
+          window.location.replace(`{{ "" | relative_url }}/${recipe.category}`)
+        } else {
+        document.getElementById("submitButton").disabled = false;
+        window.document.body.style.cursor = "pointer";
       }
+    }
     };
     http.open('POST', `{{ site.api_baseurl }}api/categories/${category}/recipes`, true);
     http.setRequestHeader('Content-type', 'application/json');
