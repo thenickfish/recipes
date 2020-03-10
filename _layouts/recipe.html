@@ -11,14 +11,14 @@ layout: default
 <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.1/build/grids-responsive-min.css" />
 <p></i> <!-- uses solid style -->
 </p>
-<h1 style="margin: 0;">{{page.recipe.name}}</h1>
+<h1 style="margin: 0; text-transform: uppercase;">{{page.recipe.name}}</h1>
 
-<p>{{page.recipe.blurb}}</p>
+<p style="text-transform: uppercase;">{{page.recipe.blurb}}</p>
 
 <div class="pure-g">
   <div class="pure-u-1 pure-u-md-1-2">
     <div>
-      <ul style="list-style: none;">
+      <ul style="list-style: none; text-transform: uppercase;">
         {% for ingredient in page.recipe.ingredients %}
         <li style="padding: 0;">{{ingredient}}</li>
 
