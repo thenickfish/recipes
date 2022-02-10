@@ -265,14 +265,14 @@
           {
             Object.freeze(emptyObject);
           }
-          function Component(props, context, updater) {
+          function Component5(props, context, updater) {
             this.props = props;
             this.context = context;
             this.refs = emptyObject;
             this.updater = updater || ReactNoopUpdateQueue;
           }
-          Component.prototype.isReactComponent = {};
-          Component.prototype.setState = function(partialState, callback) {
+          Component5.prototype.isReactComponent = {};
+          Component5.prototype.setState = function(partialState, callback) {
             if (!(typeof partialState === "object" || typeof partialState === "function" || partialState == null)) {
               {
                 throw Error("setState(...): takes an object of state variables to update or a function which returns an object of state variables.");
@@ -280,7 +280,7 @@
             }
             this.updater.enqueueSetState(this, partialState, callback, "setState");
           };
-          Component.prototype.forceUpdate = function(callback) {
+          Component5.prototype.forceUpdate = function(callback) {
             this.updater.enqueueForceUpdate(this, callback, "forceUpdate");
           };
           {
@@ -289,7 +289,7 @@
               replaceState: ["replaceState", "Refactor your code to use setState instead (see https://github.com/facebook/react/issues/3236)."]
             };
             var defineDeprecationWarning = function(methodName, info) {
-              Object.defineProperty(Component.prototype, methodName, {
+              Object.defineProperty(Component5.prototype, methodName, {
                 get: function() {
                   warn("%s(...) is deprecated in plain JavaScript React classes. %s", info[0], info[1]);
                   return void 0;
@@ -304,7 +304,7 @@
           }
           function ComponentDummy() {
           }
-          ComponentDummy.prototype = Component.prototype;
+          ComponentDummy.prototype = Component5.prototype;
           function PureComponent(props, context, updater) {
             this.props = props;
             this.context = context;
@@ -313,7 +313,7 @@
           }
           var pureComponentPrototype = PureComponent.prototype = new ComponentDummy();
           pureComponentPrototype.constructor = PureComponent;
-          _assign(pureComponentPrototype, Component.prototype);
+          _assign(pureComponentPrototype, Component5.prototype);
           pureComponentPrototype.isPureReactComponent = true;
           function createRef() {
             var refObject = {
@@ -462,7 +462,7 @@
               }
             }
           }
-          var ReactElement = function(type, key, ref, self, source, owner, props) {
+          var ReactElement2 = function(type, key, ref, self, source, owner, props) {
             var element = {
               $$typeof: REACT_ELEMENT_TYPE,
               type,
@@ -498,7 +498,7 @@
             }
             return element;
           };
-          function createElement2(type, config, children) {
+          function createElement3(type, config, children) {
             var propName;
             var props = {};
             var key = null;
@@ -557,10 +557,10 @@
                 }
               }
             }
-            return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
+            return ReactElement2(type, key, ref, self, source, ReactCurrentOwner.current, props);
           }
           function cloneAndReplaceKey(oldElement, newKey) {
-            var newElement = ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props);
+            var newElement = ReactElement2(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props);
             return newElement;
           }
           function cloneElement(element, config, children) {
@@ -608,9 +608,9 @@
               }
               props.children = childArray;
             }
-            return ReactElement(element.type, key, ref, self, source, owner, props);
+            return ReactElement2(element.type, key, ref, self, source, owner, props);
           }
-          function isValidElement(object) {
+          function isValidElement2(object) {
             return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
           }
           var SEPARATOR = ".";
@@ -672,7 +672,7 @@
                   return c;
                 });
               } else if (mappedChild != null) {
-                if (isValidElement(mappedChild)) {
+                if (isValidElement2(mappedChild)) {
                   mappedChild = cloneAndReplaceKey(mappedChild, escapedPrefix + (mappedChild.key && (!_child || _child.key !== mappedChild.key) ? escapeUserProvidedKey("" + mappedChild.key) + "/" : "") + childKey);
                 }
                 array.push(mappedChild);
@@ -749,14 +749,14 @@
             }) || [];
           }
           function onlyChild(children) {
-            if (!isValidElement(children)) {
+            if (!isValidElement2(children)) {
               {
                 throw Error("React.Children.only expected to receive a single React element child.");
               }
             }
             return children;
           }
-          function createContext(defaultValue, calculateChangedBits) {
+          function createContext2(defaultValue, calculateChangedBits) {
             if (calculateChangedBits === void 0) {
               calculateChangedBits = null;
             } else {
@@ -935,26 +935,26 @@
             }
             return lazyType;
           }
-          function forwardRef(render2) {
+          function forwardRef2(render) {
             {
-              if (render2 != null && render2.$$typeof === REACT_MEMO_TYPE) {
+              if (render != null && render.$$typeof === REACT_MEMO_TYPE) {
                 error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
-              } else if (typeof render2 !== "function") {
-                error("forwardRef requires a render function but was given %s.", render2 === null ? "null" : typeof render2);
+              } else if (typeof render !== "function") {
+                error("forwardRef requires a render function but was given %s.", render === null ? "null" : typeof render);
               } else {
-                if (render2.length !== 0 && render2.length !== 2) {
-                  error("forwardRef render functions accept exactly two parameters: props and ref. %s", render2.length === 1 ? "Did you forget to use the ref parameter?" : "Any additional parameter will be undefined.");
+                if (render.length !== 0 && render.length !== 2) {
+                  error("forwardRef render functions accept exactly two parameters: props and ref. %s", render.length === 1 ? "Did you forget to use the ref parameter?" : "Any additional parameter will be undefined.");
                 }
               }
-              if (render2 != null) {
-                if (render2.defaultProps != null || render2.propTypes != null) {
+              if (render != null) {
+                if (render.defaultProps != null || render.propTypes != null) {
                   error("forwardRef render functions do not support propTypes or defaultProps. Did you accidentally pass a React component?");
                 }
               }
             }
             var elementType = {
               $$typeof: REACT_FORWARD_REF_TYPE,
-              render: render2
+              render
             };
             {
               var ownName;
@@ -966,8 +966,8 @@
                 },
                 set: function(name) {
                   ownName = name;
-                  if (render2.displayName == null) {
-                    render2.displayName = name;
+                  if (render.displayName == null) {
+                    render.displayName = name;
                   }
                 }
               });
@@ -1027,7 +1027,7 @@
             }
             return dispatcher;
           }
-          function useContext(Context, unstable_observedBits) {
+          function useContext2(Context, unstable_observedBits) {
             var dispatcher = resolveDispatcher();
             {
               if (unstable_observedBits !== void 0) {
@@ -1044,7 +1044,7 @@
             }
             return dispatcher.useContext(Context, unstable_observedBits);
           }
-          function useState(initialState) {
+          function useState3(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1052,23 +1052,23 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef(initialValue) {
+          function useRef3(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect(create, deps) {
+          function useEffect2(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
-          function useLayoutEffect(create, deps) {
+          function useLayoutEffect3(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback(callback, deps) {
+          function useCallback3(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
-          function useMemo(create, deps) {
+          function useMemo3(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useMemo(create, deps);
           }
@@ -1286,8 +1286,8 @@
               return describeNativeComponentFrame(fn, false);
             }
           }
-          function shouldConstruct(Component2) {
-            var prototype = Component2.prototype;
+          function shouldConstruct(Component6) {
+            var prototype = Component6.prototype;
             return !!(prototype && prototype.isReactComponent);
           }
           function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
@@ -1449,11 +1449,11 @@
             if (Array.isArray(node)) {
               for (var i = 0; i < node.length; i++) {
                 var child = node[i];
-                if (isValidElement(child)) {
+                if (isValidElement2(child)) {
                   validateExplicitKey(child, parentType);
                 }
               }
-            } else if (isValidElement(node)) {
+            } else if (isValidElement2(node)) {
               if (node._store) {
                 node._store.validated = true;
               }
@@ -1464,7 +1464,7 @@
                   var iterator = iteratorFn.call(node);
                   var step;
                   while (!(step = iterator.next()).done) {
-                    if (isValidElement(step.value)) {
+                    if (isValidElement2(step.value)) {
                       validateExplicitKey(step.value, parentType);
                     }
                   }
@@ -1546,7 +1546,7 @@
                 error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
               }
             }
-            var element = createElement2.apply(this, arguments);
+            var element = createElement3.apply(this, arguments);
             if (element == null) {
               return element;
             }
@@ -1603,36 +1603,36 @@
           var createElement$1 = createElementWithValidation;
           var cloneElement$1 = cloneElementWithValidation;
           var createFactory = createFactoryWithValidation;
-          var Children = {
+          var Children2 = {
             map: mapChildren,
             forEach: forEachChildren,
             count: countChildren,
             toArray,
             only: onlyChild
           };
-          exports.Children = Children;
-          exports.Component = Component;
+          exports.Children = Children2;
+          exports.Component = Component5;
           exports.PureComponent = PureComponent;
           exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
           exports.cloneElement = cloneElement$1;
-          exports.createContext = createContext;
+          exports.createContext = createContext2;
           exports.createElement = createElement$1;
           exports.createFactory = createFactory;
           exports.createRef = createRef;
-          exports.forwardRef = forwardRef;
-          exports.isValidElement = isValidElement;
+          exports.forwardRef = forwardRef2;
+          exports.isValidElement = isValidElement2;
           exports.lazy = lazy;
           exports.memo = memo;
-          exports.useCallback = useCallback;
-          exports.useContext = useContext;
+          exports.useCallback = useCallback3;
+          exports.useContext = useContext2;
           exports.useDebugValue = useDebugValue;
-          exports.useEffect = useEffect;
+          exports.useEffect = useEffect2;
           exports.useImperativeHandle = useImperativeHandle;
-          exports.useLayoutEffect = useLayoutEffect;
-          exports.useMemo = useMemo;
+          exports.useLayoutEffect = useLayoutEffect3;
+          exports.useMemo = useMemo3;
           exports.useReducer = useReducer;
-          exports.useRef = useRef;
-          exports.useState = useState;
+          exports.useRef = useRef3;
+          exports.useState = useState3;
           exports.version = ReactVersion;
         })();
       }
@@ -2440,11 +2440,11 @@
       if (true) {
         (function() {
           "use strict";
-          var React3 = require_react();
+          var React7 = require_react();
           var _assign = require_object_assign();
           var Scheduler = require_scheduler();
           var tracing = require_tracing();
-          var ReactSharedInternals = React3.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React7.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function warn(format) {
             {
               for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -2476,7 +2476,7 @@
               Function.prototype.apply.call(console[level], console, argsWithFormat);
             }
           }
-          if (!React3) {
+          if (!React7) {
             {
               throw Error("ReactDOM was loaded before React. Make sure you load the React package before loading ReactDOM.");
             }
@@ -2488,7 +2488,7 @@
           var HostPortal = 4;
           var HostComponent = 5;
           var HostText = 6;
-          var Fragment = 7;
+          var Fragment2 = 7;
           var Mode = 8;
           var ContextConsumer = 9;
           var ContextProvider = 10;
@@ -3213,8 +3213,8 @@
               return describeNativeComponentFrame(fn, false);
             }
           }
-          function shouldConstruct(Component) {
-            var prototype = Component.prototype;
+          function shouldConstruct(Component5) {
+            var prototype = Component5.prototype;
             return !!(prototype && prototype.isReactComponent);
           }
           function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
@@ -3692,7 +3692,7 @@
           var didWarnInvalidChild = false;
           function flattenChildren(children) {
             var content = "";
-            React3.Children.forEach(children, function(child) {
+            React7.Children.forEach(children, function(child) {
               if (child == null) {
                 return;
               }
@@ -3703,7 +3703,7 @@
           function validateProps(element, props) {
             {
               if (typeof props.children === "object" && props.children !== null) {
-                React3.Children.forEach(props.children, function(child) {
+                React7.Children.forEach(props.children, function(child) {
                   if (child == null) {
                     return;
                   }
@@ -8457,7 +8457,7 @@
               }
             }
           }
-          function createElement2(type, props, rootContainerElement, parentNamespace) {
+          function createElement3(type, props, rootContainerElement, parentNamespace) {
             var isCustomComponentTag;
             var ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement);
             var domElement;
@@ -9334,7 +9334,7 @@
               }
               parentNamespace = hostContextDev.namespace;
             }
-            var domElement = createElement2(type, props, rootContainerInstance, parentNamespace);
+            var domElement = createElement3(type, props, rootContainerInstance, parentNamespace);
             precacheFiberNode(internalInstanceHandle, domElement);
             updateFiberProps(domElement, props);
             return domElement;
@@ -9804,9 +9804,9 @@
           var contextStackCursor = createCursor(emptyContextObject);
           var didPerformWorkStackCursor = createCursor(false);
           var previousContext = emptyContextObject;
-          function getUnmaskedContext(workInProgress2, Component, didPushOwnContextIfProvider) {
+          function getUnmaskedContext(workInProgress2, Component5, didPushOwnContextIfProvider) {
             {
-              if (didPushOwnContextIfProvider && isContextProvider(Component)) {
+              if (didPushOwnContextIfProvider && isContextProvider(Component5)) {
                 return previousContext;
               }
               return contextStackCursor.current;
@@ -9951,8 +9951,8 @@
                   case HostRoot:
                     return node.stateNode.context;
                   case ClassComponent: {
-                    var Component = node.type;
-                    if (isContextProvider(Component)) {
+                    var Component5 = node.type;
+                    if (isContextProvider(Component5)) {
                       return node.stateNode.__reactInternalMemoizedMergedChildContext;
                     }
                     break;
@@ -10364,10 +10364,10 @@
               pendingLegacyContextWarning = /* @__PURE__ */ new Map();
             };
           }
-          function resolveDefaultProps(Component, baseProps) {
-            if (Component && Component.defaultProps) {
+          function resolveDefaultProps(Component5, baseProps) {
+            if (Component5 && Component5.defaultProps) {
               var props = _assign({}, baseProps);
-              var defaultProps = Component.defaultProps;
+              var defaultProps = Component5.defaultProps;
               for (var propName in defaultProps) {
                 if (props[propName] === void 0) {
                   props[propName] = defaultProps[propName];
@@ -10896,7 +10896,7 @@
           }
           var fakeInternalInstance = {};
           var isArray = Array.isArray;
-          var emptyRefsObject = new React3.Component().refs;
+          var emptyRefsObject = new React7.Component().refs;
           var didWarnAboutStateAssignmentForComponent;
           var didWarnAboutUninitializedState;
           var didWarnAboutGetSnapshotBeforeUpdateWithoutDidUpdate;
@@ -11672,7 +11672,7 @@
               }
             }
             function updateFragment2(returnFiber, current2, fragment, lanes, key) {
-              if (current2 === null || current2.tag !== Fragment) {
+              if (current2 === null || current2.tag !== Fragment2) {
                 var created = createFiberFromFragment(fragment, returnFiber.mode, lanes, key);
                 created.return = returnFiber;
                 return created;
@@ -12040,7 +12040,7 @@
               while (child !== null) {
                 if (child.key === key) {
                   switch (child.tag) {
-                    case Fragment: {
+                    case Fragment2: {
                       if (element.type === REACT_FRAGMENT_TYPE) {
                         deleteRemainingChildren(returnFiber, child.sibling);
                         var existing = useFiber(child, element.props.children);
@@ -12683,7 +12683,7 @@
             }
             return true;
           }
-          function renderWithHooks(current2, workInProgress2, Component, props, secondArg, nextRenderLanes) {
+          function renderWithHooks(current2, workInProgress2, Component5, props, secondArg, nextRenderLanes) {
             renderLanes = nextRenderLanes;
             currentlyRenderingFiber$1 = workInProgress2;
             {
@@ -12703,7 +12703,7 @@
                 ReactCurrentDispatcher$1.current = HooksDispatcherOnMountInDEV;
               }
             }
-            var children = Component(props, secondArg);
+            var children = Component5(props, secondArg);
             if (didScheduleRenderPhaseUpdateDuringThisPass) {
               var numberOfReRenders = 0;
               do {
@@ -12724,7 +12724,7 @@
                   hookTypesUpdateIndexDev = -1;
                 }
                 ReactCurrentDispatcher$1.current = HooksDispatcherOnRerenderInDEV;
-                children = Component(props, secondArg);
+                children = Component5(props, secondArg);
               } while (didScheduleRenderPhaseUpdateDuringThisPass);
             }
             ReactCurrentDispatcher$1.current = ContextOnlyDispatcher;
@@ -14311,27 +14311,27 @@
             workInProgress2.child = reconcileChildFibers(workInProgress2, current2.child, null, renderLanes2);
             workInProgress2.child = reconcileChildFibers(workInProgress2, null, nextChildren, renderLanes2);
           }
-          function updateForwardRef(current2, workInProgress2, Component, nextProps, renderLanes2) {
+          function updateForwardRef(current2, workInProgress2, Component5, nextProps, renderLanes2) {
             {
               if (workInProgress2.type !== workInProgress2.elementType) {
-                var innerPropTypes = Component.propTypes;
+                var innerPropTypes = Component5.propTypes;
                 if (innerPropTypes) {
-                  checkPropTypes(innerPropTypes, nextProps, "prop", getComponentName(Component));
+                  checkPropTypes(innerPropTypes, nextProps, "prop", getComponentName(Component5));
                 }
               }
             }
-            var render3 = Component.render;
+            var render2 = Component5.render;
             var ref = workInProgress2.ref;
             var nextChildren;
             prepareToReadContext(workInProgress2, renderLanes2);
             {
               ReactCurrentOwner$1.current = workInProgress2;
               setIsRendering(true);
-              nextChildren = renderWithHooks(current2, workInProgress2, render3, nextProps, ref, renderLanes2);
+              nextChildren = renderWithHooks(current2, workInProgress2, render2, nextProps, ref, renderLanes2);
               if (workInProgress2.mode & StrictMode) {
                 disableLogs();
                 try {
-                  nextChildren = renderWithHooks(current2, workInProgress2, render3, nextProps, ref, renderLanes2);
+                  nextChildren = renderWithHooks(current2, workInProgress2, render2, nextProps, ref, renderLanes2);
                 } finally {
                   reenableLogs();
                 }
@@ -14346,10 +14346,10 @@
             reconcileChildren(current2, workInProgress2, nextChildren, renderLanes2);
             return workInProgress2.child;
           }
-          function updateMemoComponent(current2, workInProgress2, Component, nextProps, updateLanes, renderLanes2) {
+          function updateMemoComponent(current2, workInProgress2, Component5, nextProps, updateLanes, renderLanes2) {
             if (current2 === null) {
-              var type = Component.type;
-              if (isSimpleFunctionComponent(type) && Component.compare === null && Component.defaultProps === void 0) {
+              var type = Component5.type;
+              if (isSimpleFunctionComponent(type) && Component5.compare === null && Component5.defaultProps === void 0) {
                 var resolvedType = type;
                 {
                   resolvedType = resolveFunctionForHotReloading(type);
@@ -14367,14 +14367,14 @@
                   checkPropTypes(innerPropTypes, nextProps, "prop", getComponentName(type));
                 }
               }
-              var child = createFiberFromTypeAndProps(Component.type, null, nextProps, workInProgress2, workInProgress2.mode, renderLanes2);
+              var child = createFiberFromTypeAndProps(Component5.type, null, nextProps, workInProgress2, workInProgress2.mode, renderLanes2);
               child.ref = workInProgress2.ref;
               child.return = workInProgress2;
               workInProgress2.child = child;
               return child;
             }
             {
-              var _type = Component.type;
+              var _type = Component5.type;
               var _innerPropTypes = _type.propTypes;
               if (_innerPropTypes) {
                 checkPropTypes(_innerPropTypes, nextProps, "prop", getComponentName(_type));
@@ -14383,7 +14383,7 @@
             var currentChild = current2.child;
             if (!includesSomeLane(updateLanes, renderLanes2)) {
               var prevProps = currentChild.memoizedProps;
-              var compare = Component.compare;
+              var compare = Component5.compare;
               compare = compare !== null ? compare : shallowEqual;
               if (compare(prevProps, nextProps) && current2.ref === workInProgress2.ref) {
                 return bailoutOnAlreadyFinishedWork(current2, workInProgress2, renderLanes2);
@@ -14396,7 +14396,7 @@
             workInProgress2.child = newChild;
             return newChild;
           }
-          function updateSimpleMemoComponent(current2, workInProgress2, Component, nextProps, updateLanes, renderLanes2) {
+          function updateSimpleMemoComponent(current2, workInProgress2, Component5, nextProps, updateLanes, renderLanes2) {
             {
               if (workInProgress2.type !== workInProgress2.elementType) {
                 var outerMemoType = workInProgress2.elementType;
@@ -14428,7 +14428,7 @@
                 }
               }
             }
-            return updateFunctionComponent(current2, workInProgress2, Component, nextProps, renderLanes2);
+            return updateFunctionComponent(current2, workInProgress2, Component5, nextProps, renderLanes2);
           }
           function updateOffscreenComponent(current2, workInProgress2, renderLanes2) {
             var nextProps = workInProgress2.pendingProps;
@@ -14509,18 +14509,18 @@
               workInProgress2.flags |= Ref;
             }
           }
-          function updateFunctionComponent(current2, workInProgress2, Component, nextProps, renderLanes2) {
+          function updateFunctionComponent(current2, workInProgress2, Component5, nextProps, renderLanes2) {
             {
               if (workInProgress2.type !== workInProgress2.elementType) {
-                var innerPropTypes = Component.propTypes;
+                var innerPropTypes = Component5.propTypes;
                 if (innerPropTypes) {
-                  checkPropTypes(innerPropTypes, nextProps, "prop", getComponentName(Component));
+                  checkPropTypes(innerPropTypes, nextProps, "prop", getComponentName(Component5));
                 }
               }
             }
             var context;
             {
-              var unmaskedContext = getUnmaskedContext(workInProgress2, Component, true);
+              var unmaskedContext = getUnmaskedContext(workInProgress2, Component5, true);
               context = getMaskedContext(workInProgress2, unmaskedContext);
             }
             var nextChildren;
@@ -14528,11 +14528,11 @@
             {
               ReactCurrentOwner$1.current = workInProgress2;
               setIsRendering(true);
-              nextChildren = renderWithHooks(current2, workInProgress2, Component, nextProps, context, renderLanes2);
+              nextChildren = renderWithHooks(current2, workInProgress2, Component5, nextProps, context, renderLanes2);
               if (workInProgress2.mode & StrictMode) {
                 disableLogs();
                 try {
-                  nextChildren = renderWithHooks(current2, workInProgress2, Component, nextProps, context, renderLanes2);
+                  nextChildren = renderWithHooks(current2, workInProgress2, Component5, nextProps, context, renderLanes2);
                 } finally {
                   reenableLogs();
                 }
@@ -14547,17 +14547,17 @@
             reconcileChildren(current2, workInProgress2, nextChildren, renderLanes2);
             return workInProgress2.child;
           }
-          function updateClassComponent(current2, workInProgress2, Component, nextProps, renderLanes2) {
+          function updateClassComponent(current2, workInProgress2, Component5, nextProps, renderLanes2) {
             {
               if (workInProgress2.type !== workInProgress2.elementType) {
-                var innerPropTypes = Component.propTypes;
+                var innerPropTypes = Component5.propTypes;
                 if (innerPropTypes) {
-                  checkPropTypes(innerPropTypes, nextProps, "prop", getComponentName(Component));
+                  checkPropTypes(innerPropTypes, nextProps, "prop", getComponentName(Component5));
                 }
               }
             }
             var hasContext;
-            if (isContextProvider(Component)) {
+            if (isContextProvider(Component5)) {
               hasContext = true;
               pushContextProvider(workInProgress2);
             } else {
@@ -14572,15 +14572,15 @@
                 workInProgress2.alternate = null;
                 workInProgress2.flags |= Placement;
               }
-              constructClassInstance(workInProgress2, Component, nextProps);
-              mountClassInstance(workInProgress2, Component, nextProps, renderLanes2);
+              constructClassInstance(workInProgress2, Component5, nextProps);
+              mountClassInstance(workInProgress2, Component5, nextProps, renderLanes2);
               shouldUpdate = true;
             } else if (current2 === null) {
-              shouldUpdate = resumeMountClassInstance(workInProgress2, Component, nextProps, renderLanes2);
+              shouldUpdate = resumeMountClassInstance(workInProgress2, Component5, nextProps, renderLanes2);
             } else {
-              shouldUpdate = updateClassInstance(current2, workInProgress2, Component, nextProps, renderLanes2);
+              shouldUpdate = updateClassInstance(current2, workInProgress2, Component5, nextProps, renderLanes2);
             }
-            var nextUnitOfWork = finishClassComponent(current2, workInProgress2, Component, shouldUpdate, hasContext, renderLanes2);
+            var nextUnitOfWork = finishClassComponent(current2, workInProgress2, Component5, shouldUpdate, hasContext, renderLanes2);
             {
               var inst = workInProgress2.stateNode;
               if (shouldUpdate && inst.props !== nextProps) {
@@ -14592,19 +14592,19 @@
             }
             return nextUnitOfWork;
           }
-          function finishClassComponent(current2, workInProgress2, Component, shouldUpdate, hasContext, renderLanes2) {
+          function finishClassComponent(current2, workInProgress2, Component5, shouldUpdate, hasContext, renderLanes2) {
             markRef(current2, workInProgress2);
             var didCaptureError = (workInProgress2.flags & DidCapture) !== NoFlags;
             if (!shouldUpdate && !didCaptureError) {
               if (hasContext) {
-                invalidateContextProvider(workInProgress2, Component, false);
+                invalidateContextProvider(workInProgress2, Component5, false);
               }
               return bailoutOnAlreadyFinishedWork(current2, workInProgress2, renderLanes2);
             }
             var instance = workInProgress2.stateNode;
             ReactCurrentOwner$1.current = workInProgress2;
             var nextChildren;
-            if (didCaptureError && typeof Component.getDerivedStateFromError !== "function") {
+            if (didCaptureError && typeof Component5.getDerivedStateFromError !== "function") {
               nextChildren = null;
               {
                 stopProfilerTimerIfRunning();
@@ -14632,7 +14632,7 @@
             }
             workInProgress2.memoizedState = instance.state;
             if (hasContext) {
-              invalidateContextProvider(workInProgress2, Component, true);
+              invalidateContextProvider(workInProgress2, Component5, true);
             }
             return workInProgress2.child;
           }
@@ -14724,60 +14724,60 @@
             var lazyComponent = elementType;
             var payload = lazyComponent._payload;
             var init = lazyComponent._init;
-            var Component = init(payload);
-            workInProgress2.type = Component;
-            var resolvedTag = workInProgress2.tag = resolveLazyComponentTag(Component);
-            var resolvedProps = resolveDefaultProps(Component, props);
+            var Component5 = init(payload);
+            workInProgress2.type = Component5;
+            var resolvedTag = workInProgress2.tag = resolveLazyComponentTag(Component5);
+            var resolvedProps = resolveDefaultProps(Component5, props);
             var child;
             switch (resolvedTag) {
               case FunctionComponent: {
                 {
-                  validateFunctionComponentInDev(workInProgress2, Component);
-                  workInProgress2.type = Component = resolveFunctionForHotReloading(Component);
+                  validateFunctionComponentInDev(workInProgress2, Component5);
+                  workInProgress2.type = Component5 = resolveFunctionForHotReloading(Component5);
                 }
-                child = updateFunctionComponent(null, workInProgress2, Component, resolvedProps, renderLanes2);
+                child = updateFunctionComponent(null, workInProgress2, Component5, resolvedProps, renderLanes2);
                 return child;
               }
               case ClassComponent: {
                 {
-                  workInProgress2.type = Component = resolveClassForHotReloading(Component);
+                  workInProgress2.type = Component5 = resolveClassForHotReloading(Component5);
                 }
-                child = updateClassComponent(null, workInProgress2, Component, resolvedProps, renderLanes2);
+                child = updateClassComponent(null, workInProgress2, Component5, resolvedProps, renderLanes2);
                 return child;
               }
               case ForwardRef: {
                 {
-                  workInProgress2.type = Component = resolveForwardRefForHotReloading(Component);
+                  workInProgress2.type = Component5 = resolveForwardRefForHotReloading(Component5);
                 }
-                child = updateForwardRef(null, workInProgress2, Component, resolvedProps, renderLanes2);
+                child = updateForwardRef(null, workInProgress2, Component5, resolvedProps, renderLanes2);
                 return child;
               }
               case MemoComponent: {
                 {
                   if (workInProgress2.type !== workInProgress2.elementType) {
-                    var outerPropTypes = Component.propTypes;
+                    var outerPropTypes = Component5.propTypes;
                     if (outerPropTypes) {
-                      checkPropTypes(outerPropTypes, resolvedProps, "prop", getComponentName(Component));
+                      checkPropTypes(outerPropTypes, resolvedProps, "prop", getComponentName(Component5));
                     }
                   }
                 }
-                child = updateMemoComponent(null, workInProgress2, Component, resolveDefaultProps(Component.type, resolvedProps), updateLanes, renderLanes2);
+                child = updateMemoComponent(null, workInProgress2, Component5, resolveDefaultProps(Component5.type, resolvedProps), updateLanes, renderLanes2);
                 return child;
               }
             }
             var hint = "";
             {
-              if (Component !== null && typeof Component === "object" && Component.$$typeof === REACT_LAZY_TYPE) {
+              if (Component5 !== null && typeof Component5 === "object" && Component5.$$typeof === REACT_LAZY_TYPE) {
                 hint = " Did you wrap a component in React.lazy() more than once?";
               }
             }
             {
               {
-                throw Error("Element type is invalid. Received a promise that resolves to: " + Component + ". Lazy element type must resolve to a class or function." + hint);
+                throw Error("Element type is invalid. Received a promise that resolves to: " + Component5 + ". Lazy element type must resolve to a class or function." + hint);
               }
             }
           }
-          function mountIncompleteClassComponent(_current, workInProgress2, Component, nextProps, renderLanes2) {
+          function mountIncompleteClassComponent(_current, workInProgress2, Component5, nextProps, renderLanes2) {
             if (_current !== null) {
               _current.alternate = null;
               workInProgress2.alternate = null;
@@ -14785,18 +14785,18 @@
             }
             workInProgress2.tag = ClassComponent;
             var hasContext;
-            if (isContextProvider(Component)) {
+            if (isContextProvider(Component5)) {
               hasContext = true;
               pushContextProvider(workInProgress2);
             } else {
               hasContext = false;
             }
             prepareToReadContext(workInProgress2, renderLanes2);
-            constructClassInstance(workInProgress2, Component, nextProps);
-            mountClassInstance(workInProgress2, Component, nextProps, renderLanes2);
-            return finishClassComponent(null, workInProgress2, Component, true, hasContext, renderLanes2);
+            constructClassInstance(workInProgress2, Component5, nextProps);
+            mountClassInstance(workInProgress2, Component5, nextProps, renderLanes2);
+            return finishClassComponent(null, workInProgress2, Component5, true, hasContext, renderLanes2);
           }
-          function mountIndeterminateComponent(_current, workInProgress2, Component, renderLanes2) {
+          function mountIndeterminateComponent(_current, workInProgress2, Component5, renderLanes2) {
             if (_current !== null) {
               _current.alternate = null;
               workInProgress2.alternate = null;
@@ -14805,14 +14805,14 @@
             var props = workInProgress2.pendingProps;
             var context;
             {
-              var unmaskedContext = getUnmaskedContext(workInProgress2, Component, false);
+              var unmaskedContext = getUnmaskedContext(workInProgress2, Component5, false);
               context = getMaskedContext(workInProgress2, unmaskedContext);
             }
             prepareToReadContext(workInProgress2, renderLanes2);
             var value;
             {
-              if (Component.prototype && typeof Component.prototype.render === "function") {
-                var componentName = getComponentName(Component) || "Unknown";
+              if (Component5.prototype && typeof Component5.prototype.render === "function") {
+                var componentName = getComponentName(Component5) || "Unknown";
                 if (!didWarnAboutBadClass[componentName]) {
                   error("The <%s /> component appears to have a render method, but doesn't extend React.Component. This is likely to cause errors. Change %s to extend React.Component instead.", componentName, componentName);
                   didWarnAboutBadClass[componentName] = true;
@@ -14823,13 +14823,13 @@
               }
               setIsRendering(true);
               ReactCurrentOwner$1.current = workInProgress2;
-              value = renderWithHooks(null, workInProgress2, Component, props, context, renderLanes2);
+              value = renderWithHooks(null, workInProgress2, Component5, props, context, renderLanes2);
               setIsRendering(false);
             }
             workInProgress2.flags |= PerformedWork;
             {
               if (typeof value === "object" && value !== null && typeof value.render === "function" && value.$$typeof === void 0) {
-                var _componentName = getComponentName(Component) || "Unknown";
+                var _componentName = getComponentName(Component5) || "Unknown";
                 if (!didWarnAboutModulePatternComponent[_componentName]) {
                   error("The <%s /> component appears to be a function component that returns a class instance. Change %s to a class that extends React.Component instead. If you can't use a class try assigning the prototype on the function as a workaround. `%s.prototype = React.Component.prototype`. Don't use an arrow function since it cannot be called with `new` by React.", _componentName, _componentName, _componentName);
                   didWarnAboutModulePatternComponent[_componentName] = true;
@@ -14838,7 +14838,7 @@
             }
             if (typeof value === "object" && value !== null && typeof value.render === "function" && value.$$typeof === void 0) {
               {
-                var _componentName2 = getComponentName(Component) || "Unknown";
+                var _componentName2 = getComponentName(Component5) || "Unknown";
                 if (!didWarnAboutModulePatternComponent[_componentName2]) {
                   error("The <%s /> component appears to be a function component that returns a class instance. Change %s to a class that extends React.Component instead. If you can't use a class try assigning the prototype on the function as a workaround. `%s.prototype = React.Component.prototype`. Don't use an arrow function since it cannot be called with `new` by React.", _componentName2, _componentName2, _componentName2);
                   didWarnAboutModulePatternComponent[_componentName2] = true;
@@ -14848,7 +14848,7 @@
               workInProgress2.memoizedState = null;
               workInProgress2.updateQueue = null;
               var hasContext = false;
-              if (isContextProvider(Component)) {
+              if (isContextProvider(Component5)) {
                 hasContext = true;
                 pushContextProvider(workInProgress2);
               } else {
@@ -14856,20 +14856,20 @@
               }
               workInProgress2.memoizedState = value.state !== null && value.state !== void 0 ? value.state : null;
               initializeUpdateQueue(workInProgress2);
-              var getDerivedStateFromProps = Component.getDerivedStateFromProps;
+              var getDerivedStateFromProps = Component5.getDerivedStateFromProps;
               if (typeof getDerivedStateFromProps === "function") {
-                applyDerivedStateFromProps(workInProgress2, Component, getDerivedStateFromProps, props);
+                applyDerivedStateFromProps(workInProgress2, Component5, getDerivedStateFromProps, props);
               }
               adoptClassInstance(workInProgress2, value);
-              mountClassInstance(workInProgress2, Component, props, renderLanes2);
-              return finishClassComponent(null, workInProgress2, Component, true, hasContext, renderLanes2);
+              mountClassInstance(workInProgress2, Component5, props, renderLanes2);
+              return finishClassComponent(null, workInProgress2, Component5, true, hasContext, renderLanes2);
             } else {
               workInProgress2.tag = FunctionComponent;
               {
                 if (workInProgress2.mode & StrictMode) {
                   disableLogs();
                   try {
-                    value = renderWithHooks(null, workInProgress2, Component, props, context, renderLanes2);
+                    value = renderWithHooks(null, workInProgress2, Component5, props, context, renderLanes2);
                   } finally {
                     reenableLogs();
                   }
@@ -14877,16 +14877,16 @@
               }
               reconcileChildren(null, workInProgress2, value, renderLanes2);
               {
-                validateFunctionComponentInDev(workInProgress2, Component);
+                validateFunctionComponentInDev(workInProgress2, Component5);
               }
               return workInProgress2.child;
             }
           }
-          function validateFunctionComponentInDev(workInProgress2, Component) {
+          function validateFunctionComponentInDev(workInProgress2, Component5) {
             {
-              if (Component) {
-                if (Component.childContextTypes) {
-                  error("%s(...): childContextTypes cannot be defined on a function component.", Component.displayName || Component.name || "Component");
+              if (Component5) {
+                if (Component5.childContextTypes) {
+                  error("%s(...): childContextTypes cannot be defined on a function component.", Component5.displayName || Component5.name || "Component");
                 }
               }
               if (workInProgress2.ref !== null) {
@@ -14905,15 +14905,15 @@
                   error("Function components cannot be given refs. Attempts to access this ref will fail. Did you mean to use React.forwardRef()?%s", info);
                 }
               }
-              if (typeof Component.getDerivedStateFromProps === "function") {
-                var _componentName3 = getComponentName(Component) || "Unknown";
+              if (typeof Component5.getDerivedStateFromProps === "function") {
+                var _componentName3 = getComponentName(Component5) || "Unknown";
                 if (!didWarnAboutGetDerivedStateOnFunctionComponent[_componentName3]) {
                   error("%s: Function components do not support getDerivedStateFromProps.", _componentName3);
                   didWarnAboutGetDerivedStateOnFunctionComponent[_componentName3] = true;
                 }
               }
-              if (typeof Component.contextType === "object" && Component.contextType !== null) {
-                var _componentName4 = getComponentName(Component) || "Unknown";
+              if (typeof Component5.contextType === "object" && Component5.contextType !== null) {
+                var _componentName4 = getComponentName(Component5) || "Unknown";
                 if (!didWarnAboutContextTypeOnFunctionComponent[_componentName4]) {
                   error("%s: Function components do not support contextType.", _componentName4);
                   didWarnAboutContextTypeOnFunctionComponent[_componentName4] = true;
@@ -15422,9 +15422,9 @@
               }
             }
             var newProps = workInProgress2.pendingProps;
-            var render3 = newProps.children;
+            var render2 = newProps.children;
             {
-              if (typeof render3 !== "function") {
+              if (typeof render2 !== "function") {
                 error("A context consumer was rendered with multiple children, or a child that isn't a function. A context consumer expects a single child that is a function. If you did pass a function, make sure there is no trailing or leading whitespace around it.");
               }
             }
@@ -15434,7 +15434,7 @@
             {
               ReactCurrentOwner$1.current = workInProgress2;
               setIsRendering(true);
-              newChildren = render3(newValue);
+              newChildren = render2(newValue);
               setIsRendering(false);
             }
             workInProgress2.flags |= PerformedWork;
@@ -15522,8 +15522,8 @@
                     pushHostContext(workInProgress2);
                     break;
                   case ClassComponent: {
-                    var Component = workInProgress2.type;
-                    if (isContextProvider(Component)) {
+                    var Component5 = workInProgress2.type;
+                    if (isContextProvider(Component5)) {
                       pushContextProvider(workInProgress2);
                     }
                     break;
@@ -15644,7 +15644,7 @@
                 var _resolvedProps2 = workInProgress2.elementType === type ? _unresolvedProps2 : resolveDefaultProps(type, _unresolvedProps2);
                 return updateForwardRef(current2, workInProgress2, type, _resolvedProps2, renderLanes2);
               }
-              case Fragment:
+              case Fragment2:
                 return updateFragment(current2, workInProgress2, renderLanes2);
               case Mode:
                 return updateMode(current2, workInProgress2, renderLanes2);
@@ -15811,15 +15811,15 @@
               case SimpleMemoComponent:
               case FunctionComponent:
               case ForwardRef:
-              case Fragment:
+              case Fragment2:
               case Mode:
               case Profiler:
               case ContextConsumer:
               case MemoComponent:
                 return null;
               case ClassComponent: {
-                var Component = workInProgress2.type;
-                if (isContextProvider(Component)) {
+                var Component5 = workInProgress2.type;
+                if (isContextProvider(Component5)) {
                   popContext(workInProgress2);
                 }
                 return null;
@@ -16101,8 +16101,8 @@
           function unwindWork(workInProgress2, renderLanes2) {
             switch (workInProgress2.tag) {
               case ClassComponent: {
-                var Component = workInProgress2.type;
-                if (isContextProvider(Component)) {
+                var Component5 = workInProgress2.type;
+                if (isContextProvider(Component5)) {
                   popContext(workInProgress2);
                 }
                 var flags = workInProgress2.flags;
@@ -19268,18 +19268,18 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
           var createFiber = function(tag, pendingProps, key, mode) {
             return new FiberNode(tag, pendingProps, key, mode);
           };
-          function shouldConstruct$1(Component) {
-            var prototype = Component.prototype;
+          function shouldConstruct$1(Component5) {
+            var prototype = Component5.prototype;
             return !!(prototype && prototype.isReactComponent);
           }
           function isSimpleFunctionComponent(type) {
             return typeof type === "function" && !shouldConstruct$1(type) && type.defaultProps === void 0;
           }
-          function resolveLazyComponentTag(Component) {
-            if (typeof Component === "function") {
-              return shouldConstruct$1(Component) ? ClassComponent : FunctionComponent;
-            } else if (Component !== void 0 && Component !== null) {
-              var $$typeof = Component.$$typeof;
+          function resolveLazyComponentTag(Component5) {
+            if (typeof Component5 === "function") {
+              return shouldConstruct$1(Component5) ? ClassComponent : FunctionComponent;
+            } else if (Component5 !== void 0 && Component5 !== null) {
+              var $$typeof = Component5.$$typeof;
               if ($$typeof === REACT_FORWARD_REF_TYPE) {
                 return ForwardRef;
               }
@@ -19515,7 +19515,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
             return fiber;
           }
           function createFiberFromFragment(elements, mode, lanes, key) {
-            var fiber = createFiber(Fragment, elements, key, mode);
+            var fiber = createFiber(Fragment2, elements, key, mode);
             fiber.lanes = lanes;
             return fiber;
           }
@@ -19718,9 +19718,9 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
             var fiber = get(parentComponent);
             var parentContext = findCurrentUnmaskedContext(fiber);
             if (fiber.tag === ClassComponent) {
-              var Component = fiber.type;
-              if (isContextProvider(Component)) {
-                return processChildContext(fiber, Component, parentContext);
+              var Component5 = fiber.type;
+              if (isContextProvider(Component5)) {
+                return processChildContext(fiber, Component5, parentContext);
               }
             }
             return parentContext;
@@ -20263,7 +20263,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
             }
             return legacyRenderSubtreeIntoContainer(null, element, container, true, callback);
           }
-          function render2(element, container, callback) {
+          function render(element, container, callback) {
             if (!isValidContainer(container)) {
               {
                 throw Error("Target container is not a DOM element.");
@@ -20395,7 +20395,7 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
           exports.findDOMNode = findDOMNode;
           exports.flushSync = flushSync;
           exports.hydrate = hydrate;
-          exports.render = render2;
+          exports.render = render;
           exports.unmountComponentAtNode = unmountComponentAtNode;
           exports.unstable_batchedUpdates = batchedUpdates$1;
           exports.unstable_createPortal = unstable_createPortal;
@@ -20420,40 +20420,1020 @@ For more info, visit https://reactjs.org/link/mock-scheduler`);
   });
 
   // app/javascript/application.tsx
-  var React2 = __toESM(require_react());
-  var ReactDOM = __toESM(require_react_dom());
+  var import_react8 = __toESM(require_react());
+  var import_react_dom = __toESM(require_react_dom());
 
-  // app/javascript/components/counter.tsx
+  // node_modules/react-router-dom/index.js
+  var import_react2 = __toESM(require_react());
+
+  // node_modules/@babel/runtime/helpers/esm/extends.js
+  function _extends() {
+    _extends = Object.assign || function(target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+      return target;
+    };
+    return _extends.apply(this, arguments);
+  }
+
+  // node_modules/history/index.js
+  var r;
+  var B = r || (r = {});
+  B.Pop = "POP";
+  B.Push = "PUSH";
+  B.Replace = "REPLACE";
+  var C = true ? function(b) {
+    return Object.freeze(b);
+  } : function(b) {
+    return b;
+  };
+  function D(b, h) {
+    if (!b) {
+      typeof console !== "undefined" && console.warn(h);
+      try {
+        throw Error(h);
+      } catch (e) {
+      }
+    }
+  }
+  function E(b) {
+    b.preventDefault();
+    b.returnValue = "";
+  }
+  function F() {
+    var b = [];
+    return { get length() {
+      return b.length;
+    }, push: function(h) {
+      b.push(h);
+      return function() {
+        b = b.filter(function(e) {
+          return e !== h;
+        });
+      };
+    }, call: function(h) {
+      b.forEach(function(e) {
+        return e && e(h);
+      });
+    } };
+  }
+  function H() {
+    return Math.random().toString(36).substr(2, 8);
+  }
+  function I(b) {
+    var h = b.pathname;
+    h = h === void 0 ? "/" : h;
+    var e = b.search;
+    e = e === void 0 ? "" : e;
+    b = b.hash;
+    b = b === void 0 ? "" : b;
+    e && e !== "?" && (h += e.charAt(0) === "?" ? e : "?" + e);
+    b && b !== "#" && (h += b.charAt(0) === "#" ? b : "#" + b);
+    return h;
+  }
+  function J(b) {
+    var h = {};
+    if (b) {
+      var e = b.indexOf("#");
+      0 <= e && (h.hash = b.substr(e), b = b.substr(0, e));
+      e = b.indexOf("?");
+      0 <= e && (h.search = b.substr(e), b = b.substr(0, e));
+      b && (h.pathname = b);
+    }
+    return h;
+  }
+  function createBrowserHistory(b) {
+    function h() {
+      var c = p.location, a = m.state || {};
+      return [a.idx, C({ pathname: c.pathname, search: c.search, hash: c.hash, state: a.usr || null, key: a.key || "default" })];
+    }
+    function e(c) {
+      return typeof c === "string" ? c : I(c);
+    }
+    function x(c, a) {
+      a === void 0 && (a = null);
+      return C(_extends({ pathname: q.pathname, hash: "", search: "" }, typeof c === "string" ? J(c) : c, { state: a, key: H() }));
+    }
+    function z(c) {
+      t = c;
+      c = h();
+      v = c[0];
+      q = c[1];
+      d.call({ action: t, location: q });
+    }
+    function A(c, a) {
+      function f() {
+        A(c, a);
+      }
+      var l = r.Push, k = x(c, a);
+      if (!g.length || (g.call({ action: l, location: k, retry: f }), false)) {
+        var n = [{ usr: k.state, key: k.key, idx: v + 1 }, e(k)];
+        k = n[0];
+        n = n[1];
+        try {
+          m.pushState(k, "", n);
+        } catch (G) {
+          p.location.assign(n);
+        }
+        z(l);
+      }
+    }
+    function y(c, a) {
+      function f() {
+        y(c, a);
+      }
+      var l = r.Replace, k = x(c, a);
+      g.length && (g.call({ action: l, location: k, retry: f }), 1) || (k = [{ usr: k.state, key: k.key, idx: v }, e(k)], m.replaceState(k[0], "", k[1]), z(l));
+    }
+    function w(c) {
+      m.go(c);
+    }
+    b === void 0 && (b = {});
+    b = b.window;
+    var p = b === void 0 ? document.defaultView : b, m = p.history, u = null;
+    p.addEventListener("popstate", function() {
+      if (u)
+        g.call(u), u = null;
+      else {
+        var c = r.Pop, a = h(), f = a[0];
+        a = a[1];
+        if (g.length)
+          if (f != null) {
+            var l = v - f;
+            l && (u = { action: c, location: a, retry: function() {
+              w(-1 * l);
+            } }, w(l));
+          } else
+            true ? D(false, "You are trying to block a POP navigation to a location that was not created by the history library. The block will fail silently in production, but in general you should do all navigation with the history library (instead of using window.history.pushState directly) to avoid this situation.") : void 0;
+        else
+          z(c);
+      }
+    });
+    var t = r.Pop;
+    b = h();
+    var v = b[0], q = b[1], d = F(), g = F();
+    v == null && (v = 0, m.replaceState(_extends({}, m.state, { idx: v }), ""));
+    return { get action() {
+      return t;
+    }, get location() {
+      return q;
+    }, createHref: e, push: A, replace: y, go: w, back: function() {
+      w(-1);
+    }, forward: function() {
+      w(1);
+    }, listen: function(c) {
+      return d.push(c);
+    }, block: function(c) {
+      var a = g.push(c);
+      g.length === 1 && p.addEventListener("beforeunload", E);
+      return function() {
+        a();
+        g.length || p.removeEventListener("beforeunload", E);
+      };
+    } };
+  }
+
+  // node_modules/react-router/index.js
   var import_react = __toESM(require_react());
-  var Timer = class extends import_react.default.Component {
-    constructor(props) {
-      super(props);
-      this.state = { seconds: props.seconds };
+  function invariant(cond, message) {
+    if (!cond)
+      throw new Error(message);
+  }
+  function warning(cond, message) {
+    if (!cond) {
+      if (typeof console !== "undefined")
+        console.warn(message);
+      try {
+        throw new Error(message);
+      } catch (e) {
+      }
     }
-    tick() {
-      this.setState((state) => ({
-        seconds: state.seconds + 1
-      }));
+  }
+  var alreadyWarned = {};
+  function warningOnce(key, cond, message) {
+    if (!cond && !alreadyWarned[key]) {
+      alreadyWarned[key] = true;
+      true ? warning(false, message) : void 0;
     }
-    componentDidMount() {
-      this.interval = setInterval(() => this.tick(), 1e3);
+  }
+  var NavigationContext = /* @__PURE__ */ (0, import_react.createContext)(null);
+  if (true) {
+    NavigationContext.displayName = "Navigation";
+  }
+  var LocationContext = /* @__PURE__ */ (0, import_react.createContext)(null);
+  if (true) {
+    LocationContext.displayName = "Location";
+  }
+  var RouteContext = /* @__PURE__ */ (0, import_react.createContext)({
+    outlet: null,
+    matches: []
+  });
+  if (true) {
+    RouteContext.displayName = "Route";
+  }
+  function Outlet(props) {
+    return useOutlet(props.context);
+  }
+  function Route(_props) {
+    true ? invariant(false, "A <Route> is only ever to be used as the child of <Routes> element, never rendered directly. Please wrap your <Route> in a <Routes>.") : invariant(false);
+  }
+  function Router(_ref3) {
+    let {
+      basename: basenameProp = "/",
+      children = null,
+      location: locationProp,
+      navigationType = r.Pop,
+      navigator: navigator2,
+      static: staticProp = false
+    } = _ref3;
+    !!useInRouterContext() ? true ? invariant(false, "You cannot render a <Router> inside another <Router>. You should never have more than one in your app.") : invariant(false) : void 0;
+    let basename = normalizePathname(basenameProp);
+    let navigationContext = (0, import_react.useMemo)(() => ({
+      basename,
+      navigator: navigator2,
+      static: staticProp
+    }), [basename, navigator2, staticProp]);
+    if (typeof locationProp === "string") {
+      locationProp = J(locationProp);
     }
-    componentWillUnmount() {
+    let {
+      pathname = "/",
+      search = "",
+      hash = "",
+      state = null,
+      key = "default"
+    } = locationProp;
+    let location = (0, import_react.useMemo)(() => {
+      let trailingPathname = stripBasename(pathname, basename);
+      if (trailingPathname == null) {
+        return null;
+      }
+      return {
+        pathname: trailingPathname,
+        search,
+        hash,
+        state,
+        key
+      };
+    }, [basename, pathname, search, hash, state, key]);
+    true ? warning(location != null, '<Router basename="' + basename + '"> is not able to match the URL ' + ('"' + pathname + search + hash + '" because it does not start with the ') + "basename, so the <Router> won't render anything.") : void 0;
+    if (location == null) {
+      return null;
+    }
+    return /* @__PURE__ */ (0, import_react.createElement)(NavigationContext.Provider, {
+      value: navigationContext
+    }, /* @__PURE__ */ (0, import_react.createElement)(LocationContext.Provider, {
+      children,
+      value: {
+        location,
+        navigationType
+      }
+    }));
+  }
+  function Routes(_ref4) {
+    let {
+      children,
+      location
+    } = _ref4;
+    return useRoutes(createRoutesFromChildren(children), location);
+  }
+  function useHref(to) {
+    !useInRouterContext() ? true ? invariant(false, "useHref() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
+    let {
+      basename,
+      navigator: navigator2
+    } = (0, import_react.useContext)(NavigationContext);
+    let {
+      hash,
+      pathname,
+      search
+    } = useResolvedPath(to);
+    let joinedPathname = pathname;
+    if (basename !== "/") {
+      let toPathname = getToPathname(to);
+      let endsWithSlash = toPathname != null && toPathname.endsWith("/");
+      joinedPathname = pathname === "/" ? basename + (endsWithSlash ? "/" : "") : joinPaths([basename, pathname]);
+    }
+    return navigator2.createHref({
+      pathname: joinedPathname,
+      search,
+      hash
+    });
+  }
+  function useInRouterContext() {
+    return (0, import_react.useContext)(LocationContext) != null;
+  }
+  function useLocation() {
+    !useInRouterContext() ? true ? invariant(false, "useLocation() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
+    return (0, import_react.useContext)(LocationContext).location;
+  }
+  function useNavigate() {
+    !useInRouterContext() ? true ? invariant(false, "useNavigate() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
+    let {
+      basename,
+      navigator: navigator2
+    } = (0, import_react.useContext)(NavigationContext);
+    let {
+      matches
+    } = (0, import_react.useContext)(RouteContext);
+    let {
+      pathname: locationPathname
+    } = useLocation();
+    let routePathnamesJson = JSON.stringify(matches.map((match) => match.pathnameBase));
+    let activeRef = (0, import_react.useRef)(false);
+    (0, import_react.useEffect)(() => {
+      activeRef.current = true;
+    });
+    let navigate = (0, import_react.useCallback)(function(to, options) {
+      if (options === void 0) {
+        options = {};
+      }
+      true ? warning(activeRef.current, "You should call navigate() in a React.useEffect(), not when your component is first rendered.") : void 0;
+      if (!activeRef.current)
+        return;
+      if (typeof to === "number") {
+        navigator2.go(to);
+        return;
+      }
+      let path = resolveTo(to, JSON.parse(routePathnamesJson), locationPathname);
+      if (basename !== "/") {
+        path.pathname = joinPaths([basename, path.pathname]);
+      }
+      (!!options.replace ? navigator2.replace : navigator2.push)(path, options.state);
+    }, [basename, navigator2, routePathnamesJson, locationPathname]);
+    return navigate;
+  }
+  var OutletContext = /* @__PURE__ */ (0, import_react.createContext)(null);
+  function useOutlet(context) {
+    let outlet = (0, import_react.useContext)(RouteContext).outlet;
+    if (outlet) {
+      return /* @__PURE__ */ (0, import_react.createElement)(OutletContext.Provider, {
+        value: context
+      }, outlet);
+    }
+    return outlet;
+  }
+  function useParams() {
+    let {
+      matches
+    } = (0, import_react.useContext)(RouteContext);
+    let routeMatch = matches[matches.length - 1];
+    return routeMatch ? routeMatch.params : {};
+  }
+  function useResolvedPath(to) {
+    let {
+      matches
+    } = (0, import_react.useContext)(RouteContext);
+    let {
+      pathname: locationPathname
+    } = useLocation();
+    let routePathnamesJson = JSON.stringify(matches.map((match) => match.pathnameBase));
+    return (0, import_react.useMemo)(() => resolveTo(to, JSON.parse(routePathnamesJson), locationPathname), [to, routePathnamesJson, locationPathname]);
+  }
+  function useRoutes(routes, locationArg) {
+    !useInRouterContext() ? true ? invariant(false, "useRoutes() may be used only in the context of a <Router> component.") : invariant(false) : void 0;
+    let {
+      matches: parentMatches
+    } = (0, import_react.useContext)(RouteContext);
+    let routeMatch = parentMatches[parentMatches.length - 1];
+    let parentParams = routeMatch ? routeMatch.params : {};
+    let parentPathname = routeMatch ? routeMatch.pathname : "/";
+    let parentPathnameBase = routeMatch ? routeMatch.pathnameBase : "/";
+    let parentRoute = routeMatch && routeMatch.route;
+    if (true) {
+      let parentPath = parentRoute && parentRoute.path || "";
+      warningOnce(parentPathname, !parentRoute || parentPath.endsWith("*"), "You rendered descendant <Routes> (or called `useRoutes()`) at " + ('"' + parentPathname + '" (under <Route path="' + parentPath + '">) but the ') + `parent route path has no trailing "*". This means if you navigate deeper, the parent won't match anymore and therefore the child routes will never render.
+
+` + ('Please change the parent <Route path="' + parentPath + '"> to <Route ') + ('path="' + (parentPath === "/" ? "*" : parentPath + "/*") + '">.'));
+    }
+    let locationFromContext = useLocation();
+    let location;
+    if (locationArg) {
+      var _parsedLocationArg$pa;
+      let parsedLocationArg = typeof locationArg === "string" ? J(locationArg) : locationArg;
+      !(parentPathnameBase === "/" || ((_parsedLocationArg$pa = parsedLocationArg.pathname) == null ? void 0 : _parsedLocationArg$pa.startsWith(parentPathnameBase))) ? true ? invariant(false, "When overriding the location using `<Routes location>` or `useRoutes(routes, location)`, the location pathname must begin with the portion of the URL pathname that was " + ('matched by all parent routes. The current pathname base is "' + parentPathnameBase + '" ') + ('but pathname "' + parsedLocationArg.pathname + '" was given in the `location` prop.')) : invariant(false) : void 0;
+      location = parsedLocationArg;
+    } else {
+      location = locationFromContext;
+    }
+    let pathname = location.pathname || "/";
+    let remainingPathname = parentPathnameBase === "/" ? pathname : pathname.slice(parentPathnameBase.length) || "/";
+    let matches = matchRoutes(routes, {
+      pathname: remainingPathname
+    });
+    if (true) {
+      true ? warning(parentRoute || matches != null, 'No routes matched location "' + location.pathname + location.search + location.hash + '" ') : void 0;
+      true ? warning(matches == null || matches[matches.length - 1].route.element !== void 0, 'Matched leaf route at location "' + location.pathname + location.search + location.hash + '" does not have an element. This means it will render an <Outlet /> with a null value by default resulting in an "empty" page.') : void 0;
+    }
+    return _renderMatches(matches && matches.map((match) => Object.assign({}, match, {
+      params: Object.assign({}, parentParams, match.params),
+      pathname: joinPaths([parentPathnameBase, match.pathname]),
+      pathnameBase: match.pathnameBase === "/" ? parentPathnameBase : joinPaths([parentPathnameBase, match.pathnameBase])
+    })), parentMatches);
+  }
+  function createRoutesFromChildren(children) {
+    let routes = [];
+    import_react.Children.forEach(children, (element) => {
+      if (!/* @__PURE__ */ (0, import_react.isValidElement)(element)) {
+        return;
+      }
+      if (element.type === import_react.Fragment) {
+        routes.push.apply(routes, createRoutesFromChildren(element.props.children));
+        return;
+      }
+      !(element.type === Route) ? true ? invariant(false, "[" + (typeof element.type === "string" ? element.type : element.type.name) + "] is not a <Route> component. All component children of <Routes> must be a <Route> or <React.Fragment>") : invariant(false) : void 0;
+      let route = {
+        caseSensitive: element.props.caseSensitive,
+        element: element.props.element,
+        index: element.props.index,
+        path: element.props.path
+      };
+      if (element.props.children) {
+        route.children = createRoutesFromChildren(element.props.children);
+      }
+      routes.push(route);
+    });
+    return routes;
+  }
+  function matchRoutes(routes, locationArg, basename) {
+    if (basename === void 0) {
+      basename = "/";
+    }
+    let location = typeof locationArg === "string" ? J(locationArg) : locationArg;
+    let pathname = stripBasename(location.pathname || "/", basename);
+    if (pathname == null) {
+      return null;
+    }
+    let branches = flattenRoutes(routes);
+    rankRouteBranches(branches);
+    let matches = null;
+    for (let i = 0; matches == null && i < branches.length; ++i) {
+      matches = matchRouteBranch(branches[i], pathname);
+    }
+    return matches;
+  }
+  function flattenRoutes(routes, branches, parentsMeta, parentPath) {
+    if (branches === void 0) {
+      branches = [];
+    }
+    if (parentsMeta === void 0) {
+      parentsMeta = [];
+    }
+    if (parentPath === void 0) {
+      parentPath = "";
+    }
+    routes.forEach((route, index) => {
+      let meta = {
+        relativePath: route.path || "",
+        caseSensitive: route.caseSensitive === true,
+        childrenIndex: index,
+        route
+      };
+      if (meta.relativePath.startsWith("/")) {
+        !meta.relativePath.startsWith(parentPath) ? true ? invariant(false, 'Absolute route path "' + meta.relativePath + '" nested under path ' + ('"' + parentPath + '" is not valid. An absolute child route path ') + "must start with the combined path of all its parent routes.") : invariant(false) : void 0;
+        meta.relativePath = meta.relativePath.slice(parentPath.length);
+      }
+      let path = joinPaths([parentPath, meta.relativePath]);
+      let routesMeta = parentsMeta.concat(meta);
+      if (route.children && route.children.length > 0) {
+        !(route.index !== true) ? true ? invariant(false, "Index routes must not have child routes. Please remove " + ('all child routes from route path "' + path + '".')) : invariant(false) : void 0;
+        flattenRoutes(route.children, branches, routesMeta, path);
+      }
+      if (route.path == null && !route.index) {
+        return;
+      }
+      branches.push({
+        path,
+        score: computeScore(path, route.index),
+        routesMeta
+      });
+    });
+    return branches;
+  }
+  function rankRouteBranches(branches) {
+    branches.sort((a, b) => a.score !== b.score ? b.score - a.score : compareIndexes(a.routesMeta.map((meta) => meta.childrenIndex), b.routesMeta.map((meta) => meta.childrenIndex)));
+  }
+  var paramRe = /^:\w+$/;
+  var dynamicSegmentValue = 3;
+  var indexRouteValue = 2;
+  var emptySegmentValue = 1;
+  var staticSegmentValue = 10;
+  var splatPenalty = -2;
+  var isSplat = (s) => s === "*";
+  function computeScore(path, index) {
+    let segments = path.split("/");
+    let initialScore = segments.length;
+    if (segments.some(isSplat)) {
+      initialScore += splatPenalty;
+    }
+    if (index) {
+      initialScore += indexRouteValue;
+    }
+    return segments.filter((s) => !isSplat(s)).reduce((score, segment) => score + (paramRe.test(segment) ? dynamicSegmentValue : segment === "" ? emptySegmentValue : staticSegmentValue), initialScore);
+  }
+  function compareIndexes(a, b) {
+    let siblings = a.length === b.length && a.slice(0, -1).every((n, i) => n === b[i]);
+    return siblings ? a[a.length - 1] - b[b.length - 1] : 0;
+  }
+  function matchRouteBranch(branch, pathname) {
+    let {
+      routesMeta
+    } = branch;
+    let matchedParams = {};
+    let matchedPathname = "/";
+    let matches = [];
+    for (let i = 0; i < routesMeta.length; ++i) {
+      let meta = routesMeta[i];
+      let end = i === routesMeta.length - 1;
+      let remainingPathname = matchedPathname === "/" ? pathname : pathname.slice(matchedPathname.length) || "/";
+      let match = matchPath({
+        path: meta.relativePath,
+        caseSensitive: meta.caseSensitive,
+        end
+      }, remainingPathname);
+      if (!match)
+        return null;
+      Object.assign(matchedParams, match.params);
+      let route = meta.route;
+      matches.push({
+        params: matchedParams,
+        pathname: joinPaths([matchedPathname, match.pathname]),
+        pathnameBase: joinPaths([matchedPathname, match.pathnameBase]),
+        route
+      });
+      if (match.pathnameBase !== "/") {
+        matchedPathname = joinPaths([matchedPathname, match.pathnameBase]);
+      }
+    }
+    return matches;
+  }
+  function _renderMatches(matches, parentMatches) {
+    if (parentMatches === void 0) {
+      parentMatches = [];
+    }
+    if (matches == null)
+      return null;
+    return matches.reduceRight((outlet, match, index) => {
+      return /* @__PURE__ */ (0, import_react.createElement)(RouteContext.Provider, {
+        children: match.route.element !== void 0 ? match.route.element : /* @__PURE__ */ (0, import_react.createElement)(Outlet, null),
+        value: {
+          outlet,
+          matches: parentMatches.concat(matches.slice(0, index + 1))
+        }
+      });
+    }, null);
+  }
+  function matchPath(pattern, pathname) {
+    if (typeof pattern === "string") {
+      pattern = {
+        path: pattern,
+        caseSensitive: false,
+        end: true
+      };
+    }
+    let [matcher, paramNames] = compilePath(pattern.path, pattern.caseSensitive, pattern.end);
+    let match = pathname.match(matcher);
+    if (!match)
+      return null;
+    let matchedPathname = match[0];
+    let pathnameBase = matchedPathname.replace(/(.)\/+$/, "$1");
+    let captureGroups = match.slice(1);
+    let params = paramNames.reduce((memo, paramName, index) => {
+      if (paramName === "*") {
+        let splatValue = captureGroups[index] || "";
+        pathnameBase = matchedPathname.slice(0, matchedPathname.length - splatValue.length).replace(/(.)\/+$/, "$1");
+      }
+      memo[paramName] = safelyDecodeURIComponent(captureGroups[index] || "", paramName);
+      return memo;
+    }, {});
+    return {
+      params,
+      pathname: matchedPathname,
+      pathnameBase,
+      pattern
+    };
+  }
+  function compilePath(path, caseSensitive, end) {
+    if (caseSensitive === void 0) {
+      caseSensitive = false;
+    }
+    if (end === void 0) {
+      end = true;
+    }
+    true ? warning(path === "*" || !path.endsWith("*") || path.endsWith("/*"), 'Route path "' + path + '" will be treated as if it were ' + ('"' + path.replace(/\*$/, "/*") + '" because the `*` character must ') + "always follow a `/` in the pattern. To get rid of this warning, " + ('please change the route path to "' + path.replace(/\*$/, "/*") + '".')) : void 0;
+    let paramNames = [];
+    let regexpSource = "^" + path.replace(/\/*\*?$/, "").replace(/^\/*/, "/").replace(/[\\.*+^$?{}|()[\]]/g, "\\$&").replace(/:(\w+)/g, (_, paramName) => {
+      paramNames.push(paramName);
+      return "([^\\/]+)";
+    });
+    if (path.endsWith("*")) {
+      paramNames.push("*");
+      regexpSource += path === "*" || path === "/*" ? "(.*)$" : "(?:\\/(.+)|\\/*)$";
+    } else {
+      regexpSource += end ? "\\/*$" : "(?:\\b|\\/|$)";
+    }
+    let matcher = new RegExp(regexpSource, caseSensitive ? void 0 : "i");
+    return [matcher, paramNames];
+  }
+  function safelyDecodeURIComponent(value, paramName) {
+    try {
+      return decodeURIComponent(value);
+    } catch (error) {
+      true ? warning(false, 'The value for the URL param "' + paramName + '" will not be decoded because' + (' the string "' + value + '" is a malformed URL segment. This is probably') + (" due to a bad percent encoding (" + error + ").")) : void 0;
+      return value;
+    }
+  }
+  function resolvePath(to, fromPathname) {
+    if (fromPathname === void 0) {
+      fromPathname = "/";
+    }
+    let {
+      pathname: toPathname,
+      search = "",
+      hash = ""
+    } = typeof to === "string" ? J(to) : to;
+    let pathname = toPathname ? toPathname.startsWith("/") ? toPathname : resolvePathname(toPathname, fromPathname) : fromPathname;
+    return {
+      pathname,
+      search: normalizeSearch(search),
+      hash: normalizeHash(hash)
+    };
+  }
+  function resolvePathname(relativePath, fromPathname) {
+    let segments = fromPathname.replace(/\/+$/, "").split("/");
+    let relativeSegments = relativePath.split("/");
+    relativeSegments.forEach((segment) => {
+      if (segment === "..") {
+        if (segments.length > 1)
+          segments.pop();
+      } else if (segment !== ".") {
+        segments.push(segment);
+      }
+    });
+    return segments.length > 1 ? segments.join("/") : "/";
+  }
+  function resolveTo(toArg, routePathnames, locationPathname) {
+    let to = typeof toArg === "string" ? J(toArg) : toArg;
+    let toPathname = toArg === "" || to.pathname === "" ? "/" : to.pathname;
+    let from;
+    if (toPathname == null) {
+      from = locationPathname;
+    } else {
+      let routePathnameIndex = routePathnames.length - 1;
+      if (toPathname.startsWith("..")) {
+        let toSegments = toPathname.split("/");
+        while (toSegments[0] === "..") {
+          toSegments.shift();
+          routePathnameIndex -= 1;
+        }
+        to.pathname = toSegments.join("/");
+      }
+      from = routePathnameIndex >= 0 ? routePathnames[routePathnameIndex] : "/";
+    }
+    let path = resolvePath(to, from);
+    if (toPathname && toPathname !== "/" && toPathname.endsWith("/") && !path.pathname.endsWith("/")) {
+      path.pathname += "/";
+    }
+    return path;
+  }
+  function getToPathname(to) {
+    return to === "" || to.pathname === "" ? "/" : typeof to === "string" ? J(to).pathname : to.pathname;
+  }
+  function stripBasename(pathname, basename) {
+    if (basename === "/")
+      return pathname;
+    if (!pathname.toLowerCase().startsWith(basename.toLowerCase())) {
+      return null;
+    }
+    let nextChar = pathname.charAt(basename.length);
+    if (nextChar && nextChar !== "/") {
+      return null;
+    }
+    return pathname.slice(basename.length) || "/";
+  }
+  var joinPaths = (paths) => paths.join("/").replace(/\/\/+/g, "/");
+  var normalizePathname = (pathname) => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
+  var normalizeSearch = (search) => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
+  var normalizeHash = (hash) => !hash || hash === "#" ? "" : hash.startsWith("#") ? hash : "#" + hash;
+
+  // node_modules/react-router-dom/index.js
+  function _extends2() {
+    _extends2 = Object.assign || function(target) {
+      for (var i = 1; i < arguments.length; i++) {
+        var source = arguments[i];
+        for (var key in source) {
+          if (Object.prototype.hasOwnProperty.call(source, key)) {
+            target[key] = source[key];
+          }
+        }
+      }
+      return target;
+    };
+    return _extends2.apply(this, arguments);
+  }
+  function _objectWithoutPropertiesLoose(source, excluded) {
+    if (source == null)
+      return {};
+    var target = {};
+    var sourceKeys = Object.keys(source);
+    var key, i;
+    for (i = 0; i < sourceKeys.length; i++) {
+      key = sourceKeys[i];
+      if (excluded.indexOf(key) >= 0)
+        continue;
+      target[key] = source[key];
+    }
+    return target;
+  }
+  var _excluded = ["onClick", "reloadDocument", "replace", "state", "target", "to"];
+  var _excluded2 = ["aria-current", "caseSensitive", "className", "end", "style", "to", "children"];
+  function BrowserRouter(_ref) {
+    let {
+      basename,
+      children,
+      window: window2
+    } = _ref;
+    let historyRef = (0, import_react2.useRef)();
+    if (historyRef.current == null) {
+      historyRef.current = createBrowserHistory({
+        window: window2
+      });
+    }
+    let history = historyRef.current;
+    let [state, setState] = (0, import_react2.useState)({
+      action: history.action,
+      location: history.location
+    });
+    (0, import_react2.useLayoutEffect)(() => history.listen(setState), [history]);
+    return /* @__PURE__ */ (0, import_react2.createElement)(Router, {
+      basename,
+      children,
+      location: state.location,
+      navigationType: state.action,
+      navigator: history
+    });
+  }
+  function HistoryRouter(_ref3) {
+    let {
+      basename,
+      children,
+      history
+    } = _ref3;
+    const [state, setState] = (0, import_react2.useState)({
+      action: history.action,
+      location: history.location
+    });
+    (0, import_react2.useLayoutEffect)(() => history.listen(setState), [history]);
+    return /* @__PURE__ */ (0, import_react2.createElement)(Router, {
+      basename,
+      children,
+      location: state.location,
+      navigationType: state.action,
+      navigator: history
+    });
+  }
+  if (true) {
+    HistoryRouter.displayName = "unstable_HistoryRouter";
+  }
+  function isModifiedEvent(event) {
+    return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
+  }
+  var Link = /* @__PURE__ */ (0, import_react2.forwardRef)(function LinkWithRef(_ref4, ref) {
+    let {
+      onClick,
+      reloadDocument,
+      replace = false,
+      state,
+      target,
+      to
+    } = _ref4, rest = _objectWithoutPropertiesLoose(_ref4, _excluded);
+    let href = useHref(to);
+    let internalOnClick = useLinkClickHandler(to, {
+      replace,
+      state,
+      target
+    });
+    function handleClick(event) {
+      if (onClick)
+        onClick(event);
+      if (!event.defaultPrevented && !reloadDocument) {
+        internalOnClick(event);
+      }
+    }
+    return /* @__PURE__ */ (0, import_react2.createElement)("a", _extends2({}, rest, {
+      href,
+      onClick: handleClick,
+      ref,
+      target
+    }));
+  });
+  if (true) {
+    Link.displayName = "Link";
+  }
+  var NavLink = /* @__PURE__ */ (0, import_react2.forwardRef)(function NavLinkWithRef(_ref5, ref) {
+    let {
+      "aria-current": ariaCurrentProp = "page",
+      caseSensitive = false,
+      className: classNameProp = "",
+      end = false,
+      style: styleProp,
+      to,
+      children
+    } = _ref5, rest = _objectWithoutPropertiesLoose(_ref5, _excluded2);
+    let location = useLocation();
+    let path = useResolvedPath(to);
+    let locationPathname = location.pathname;
+    let toPathname = path.pathname;
+    if (!caseSensitive) {
+      locationPathname = locationPathname.toLowerCase();
+      toPathname = toPathname.toLowerCase();
+    }
+    let isActive = locationPathname === toPathname || !end && locationPathname.startsWith(toPathname) && locationPathname.charAt(toPathname.length) === "/";
+    let ariaCurrent = isActive ? ariaCurrentProp : void 0;
+    let className;
+    if (typeof classNameProp === "function") {
+      className = classNameProp({
+        isActive
+      });
+    } else {
+      className = [classNameProp, isActive ? "active" : null].filter(Boolean).join(" ");
+    }
+    let style = typeof styleProp === "function" ? styleProp({
+      isActive
+    }) : styleProp;
+    return /* @__PURE__ */ (0, import_react2.createElement)(Link, _extends2({}, rest, {
+      "aria-current": ariaCurrent,
+      className,
+      ref,
+      style,
+      to
+    }), typeof children === "function" ? children({
+      isActive
+    }) : children);
+  });
+  if (true) {
+    NavLink.displayName = "NavLink";
+  }
+  function useLinkClickHandler(to, _temp) {
+    let {
+      target,
+      replace: replaceProp,
+      state
+    } = _temp === void 0 ? {} : _temp;
+    let navigate = useNavigate();
+    let location = useLocation();
+    let path = useResolvedPath(to);
+    return (0, import_react2.useCallback)((event) => {
+      if (event.button === 0 && (!target || target === "_self") && !isModifiedEvent(event)) {
+        event.preventDefault();
+        let replace = !!replaceProp || I(location) === I(path);
+        navigate(to, {
+          replace,
+          state
+        });
+      }
+    }, [location, navigate, path, replaceProp, state, target, to]);
+  }
+
+  // app/javascript/components/category/category_home.tsx
+  var import_react5 = __toESM(require_react());
+
+  // app/javascript/components/grid/grid.tsx
+  var import_react4 = __toESM(require_react());
+
+  // app/javascript/components/grid/tile.tsx
+  var import_react3 = __toESM(require_react());
+  var Tile = class extends import_react3.Component {
+    constructor() {
+      super(...arguments);
+      this.state = {};
     }
     render() {
-      return /* @__PURE__ */ import_react.default.createElement("div", null, "Seconds: ", this.state.seconds);
+      return /* @__PURE__ */ import_react3.default.createElement("article", {
+        key: this.props.name,
+        className: "style" + (this.props.index % 15 + 1)
+      }, /* @__PURE__ */ import_react3.default.createElement("span", {
+        className: "image"
+      }, /* @__PURE__ */ import_react3.default.createElement("img", {
+        src: "/assets/pic0" + (this.props.index % 15 + 1) + ".jpg",
+        alt: ""
+      })), /* @__PURE__ */ import_react3.default.createElement(Link, {
+        to: this.props.link
+      }, /* @__PURE__ */ import_react3.default.createElement("h2", null, this.props.name), /* @__PURE__ */ import_react3.default.createElement("div", {
+        className: "content"
+      }, /* @__PURE__ */ import_react3.default.createElement("p", {
+        className: "text-transform: uppercase;"
+      }, this.props.description))));
+    }
+  };
+
+  // app/javascript/components/grid/grid.tsx
+  var Grid = class extends import_react4.Component {
+    constructor() {
+      super(...arguments);
+      this.state = {};
+    }
+    render() {
+      return /* @__PURE__ */ import_react4.default.createElement("section", {
+        className: "tiles"
+      }, this.props.tiles.map((data, index) => /* @__PURE__ */ import_react4.default.createElement(Tile, {
+        key: data.name,
+        name: data.name,
+        description: data.description,
+        link: data.link,
+        index
+      })));
+    }
+  };
+
+  // app/javascript/components/category/category_home.tsx
+  function CategoryHome({}) {
+    let params = useParams();
+    let recipes = [
+      {
+        name: "recipe1",
+        description: "recipe 1 desc",
+        link: `/${params.categorySlug}/foo`
+      }
+    ];
+    return /* @__PURE__ */ import_react5.default.createElement("div", null, /* @__PURE__ */ import_react5.default.createElement(Grid, {
+      tiles: recipes
+    }), JSON.stringify(params));
+  }
+
+  // app/javascript/components/dashboard/dashboard.tsx
+  var import_react6 = __toESM(require_react());
+  var dashboard = class extends import_react6.Component {
+    constructor() {
+      super(...arguments);
+      this.state = {
+        categories: []
+      };
+    }
+    componentDidMount() {
+      fetch("/api/v1/categories.json").then((data) => {
+        if (data.ok) {
+          return data.json();
+        }
+      }).then((data) => {
+        data.forEach((element) => {
+          const newEl = {
+            name: element.name,
+            id: element.id,
+            description: element.description,
+            link: element.slug
+          };
+          this.setState((prevState) => ({
+            categories: [...prevState.categories, newEl]
+          }));
+        });
+      });
+    }
+    render() {
+      return /* @__PURE__ */ import_react6.default.createElement(Grid, {
+        tiles: this.state.categories
+      });
+    }
+  };
+
+  // app/javascript/components/recipe.tsx
+  var import_react7 = __toESM(require_react());
+  var recipe = class extends import_react7.Component {
+    constructor() {
+      super(...arguments);
+      this.state = {};
+    }
+    render() {
+      return /* @__PURE__ */ import_react7.default.createElement("div", {
+        className: "pure-g"
+      }, /* @__PURE__ */ import_react7.default.createElement("div", {
+        className: "pure-u-1 pure-u-md-1-2"
+      }, /* @__PURE__ */ import_react7.default.createElement("div", null, "test")));
     }
   };
 
   // app/javascript/application.tsx
-  var App = () => {
-    return /* @__PURE__ */ React2.createElement("div", null, "Hello, Rails 7!", /* @__PURE__ */ React2.createElement(Timer, {
-      seconds: 100
-    }));
-  };
+  function App() {
+    return /* @__PURE__ */ import_react8.default.createElement(BrowserRouter, null, /* @__PURE__ */ import_react8.default.createElement(Routes, null, /* @__PURE__ */ import_react8.default.createElement(Route, {
+      path: "/",
+      element: /* @__PURE__ */ import_react8.default.createElement(dashboard, null)
+    }), /* @__PURE__ */ import_react8.default.createElement(Route, {
+      path: "/:categorySlug",
+      element: /* @__PURE__ */ import_react8.default.createElement(CategoryHome, null)
+    }), /* @__PURE__ */ import_react8.default.createElement(Route, {
+      path: "/:categorySlug/:recipeSlug",
+      element: /* @__PURE__ */ import_react8.default.createElement(recipe, null)
+    })));
+  }
   document.addEventListener("DOMContentLoaded", () => {
     const rootEl = document.getElementById("app");
-    ReactDOM.render(/* @__PURE__ */ React2.createElement(App, null), rootEl);
+    import_react_dom.default.render(/* @__PURE__ */ import_react8.default.createElement(App, null), rootEl);
   });
 })();
 /*
@@ -20473,6 +21453,26 @@ object-assign
  * @return {boolean} True if the event is supported.
  * @internal
  * @license Modernizr 3.0.0pre (Custom Build) | MIT
+ */
+/**
+ * React Router DOM v6.2.1
+ *
+ * Copyright (c) Remix Software Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
+ */
+/**
+ * React Router v6.2.1
+ *
+ * Copyright (c) Remix Software Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE.md file in the root directory of this source tree.
+ *
+ * @license MIT
  */
 /** @license React v0.20.2
  * scheduler-tracing.development.js
